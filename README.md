@@ -141,6 +141,8 @@ The system should be scalable to accommodate increasing number of Enclosure and 
 - Our architecture has put data collection at enclosure level as priority, considering fluctuating cellular networks and internet availability. We present a hybrid architecture with on and off connectivity to cloud. We have assumed that the farmers shall be provided with rugged devices/mobile devices which shall have Wifi Connectivity to connect to the enclosure Edge Hubs on Access Points points to access real time data.
 - Although we have briefly discussed system Administrator and Integrator, it is not the central topic in our architecture. System administration includes reviewing software and hardware health, performing updates, and backing up data. We assume that Livestock Inc shall be having trained professionals, who setup the sensors and enclosure and make the system ready for the customer to consume henceforth. He also shall be responsible contact for any field issues wrt to sensors and enclosures. We have intentionally not elaborated on this role in the document for the above assumption.
 - We have assumed that local weather shall be available through publicly available Weather API. We have provided specific descriptions of such data records and related assumptions in later sections of this document.
+- Our premise is that farms already have camera systems with analytics features to improve their surveillance, monitoring, and decision-making processes. These cameras can stream live videos and use advanced analytics algorithms to generate useful insights, spot irregularities, and enable smart automation.
+
 
 ## 2. Solution
 
@@ -216,7 +218,7 @@ An **Enclosure** and a **Livestock** are two distinct data types. The **Enclosur
 
 The Landing  screen shall give the farmer the most important snapshot of the current activity in the enclosure . He shall also be able to view Enclosure to enclosure through a carousel view.
 
-![Dashboard](./Farmer_sm.png)
+![Dashboard](./img/Farmer_sm.png)
 
 #### *Notification History/Alerts History*
 
@@ -236,13 +238,13 @@ We decided to create a separate alerts database. Since the nature is more of wri
 Splitting the database allows us to silo the sensor input database , where the rules are configured ( the digital Twin and rule DB ) to its core purpose: serving many concurrent writes, without a break.
 All other functionality reads from here, processes the data, and sends it along. This split refined the design of the overall architecture. We created a clear delineation between the sensor database, and the analysis that comes after.
 
-![NotificationHistory](./Notification_History_sm.png)
+![NotificationHistory](./img/Notification_History_sm.png)
 
 #### *Sensor Trends*
 
 The customer administrator/farmer also needs to be able to configure dashboard with important sensor parameters for him to be able to view the trends. This helped us to arrive at conclusion, that there is a need to store telemetry as well as Alerts data for an increased period of time, hence this information is to be retained in the Cloud for future analysis for the customer as well as to run some ML Prediction models
 
-![CustomDashboard](./Custom_Dashboard-sm.png)
+![CustomDashboard](./img/Custom_Dashboard-sm.png)
 
 #### *Configure Rules*
 
@@ -250,9 +252,9 @@ Apart from the regular telemetry, we thought it would be really powerful , if th
 The Rule Alert processor is integral to the alert processor, which on satisfying a certain condition shall initiate a new workflow.
 Since this is always running and processing the incoming event/telemetry data, it drives us to define the system as an event-driven architecture for this portion of the system.
 
-![Settings](./Settings-sm.png)
+![Settings](./img/Settings-sm.png)
 
-![ConfigureRules](./Rule_Threshold-sm.png)
+![ConfigureRules](./img/Rule_Threshold-sm.png)
 
 #### *Manage Enclosures*
 
@@ -331,6 +333,11 @@ We recommend a combination of microservice and event-driven architecture styles.
 - Microservice architecture will allow keeping services of the system discrete, enabling fault tolerance and high availability.
 - Event-driven architecture will enable real-time capabilities. Various components can subscribe to events and receive them as asynchronous messages. eg: a Live Alert can be immediately served to the User interface and parallelly this message can be queued and processed to the database, there by making it near real-time and decoupling them.
 - As in microservices, we have minimised data sharing among microservices, The Event driven module ( Alerts and Notifications) uses Telemetry Databases, while Manage Enclosures and Rules uses a GraphDB as it allows us to define complex relationships . The shared database style is suitable because Fishwatch MonitorMe needs to prioritize data integrity and maintainability over data isolation .
+- We have followed, Global-Regional Hybrid architecture for deploying our services. The deployment looks at a highlevel as shown below: 
+Decision for Global Regional Deployment model ADR can be found [GlobalRegionADR](./adr/adr_global_and_regional_deployment.md)
+![DeploymentView](./img/Deployment_view.jpg)
+
+
 
 ## **4 System Architecture : Components**
 
@@ -338,7 +345,7 @@ We recommend a combination of microservice and event-driven architecture styles.
 
 #### Component
 
-![Component](./C4-Component_diagram.jpg)
+![Component](./img/C4-Component_diagram.jpg)
 
 Based on the user persona and usage patterns analysis, we have broken system architecture into six high-level components:
 
@@ -371,7 +378,7 @@ Based on the user persona and usage patterns analysis, we have broken system arc
 
 ### **4.2 System Architecture : Dataflow**
 
-![Container Data Flow](./Container%201-DataFlow.drawio.png)
+![Container Data Flow](./img/Container%201-DataFlow.drawio.png)
 
 The system adheres to a specific data flow pattern to ensure efficient data processing and management. The data flow can be outlined as follows:
 
@@ -409,9 +416,9 @@ The main data model of Fishwatch is split into 2 types and we have 3 varieties o
     The Fishwatch data model is envisioned as a Graph Database where the relationships are maintained and all the data administrative data is maintained.
     The relationships are defined as depicted in the diagram below:
 
-    ![GraphModel](./C4%2010-GraphModel.png)
+    ![GraphModel](./img/C4%2010-GraphModel.png)
 
-*Rationale*: The Decision for the GraphDB is recorded in the [ADR_GraphDB](./adr_graphdb.md)
+*Rationale*: The Decision for the GraphDB is recorded in the [ADR_GraphDB](./img/adr_graphdb.md)
 
 *Note*: The System is designed extensible, the Same model can be extended to other livestocks with a similar setup,
 
@@ -436,8 +443,8 @@ The Cloud Events model is explained in detail in the document link [CloudEvents 
 
 *Rationale*:
 
-- The decision for selecting CloudEvents model is recorded in the [ADR_CloudEvents](./adr_CloudEvents.md).
-- Timeseries Database selection is recorded in the [Timeseries ADR](./adr_timeseriesdatabase_for_storing_telemetry.md)
+- The decision for selecting CloudEvents model is recorded in the [ADR_CloudEvents](./adr/adr_CloudEvents.md).
+- Timeseries Database selection is recorded in the [Timeseries ADR](./adr/adr_timeseriesdatabase_for_storing_telemetry.md)
 
 ### **5.2 Microservice Independence**
 
@@ -450,7 +457,7 @@ This ensures, that there is a single Source of truth as Model DB, but relevant s
 
 The detailed flow for creating local copies that can be independently scaled along with the owner service is shown below: 
 
-![DistributedModel](./Microservice_independence.jpg)
+![DistributedModel](./img/Microservice_independence.jpg)
 
 
 ### 5.3 Microservice Descriptions
@@ -493,7 +500,7 @@ Each manufactured gateway comes pre configured with authentication credentials a
 
 *Purpose*:
 This API provides all the essential endpoints for adding a farm company, farm, enclosure, gateway, sensors, cameras, and users.
-![Onboarding](./C4-Customer_Onboarding.jpg)
+![Onboarding](./img/C4-Customer_Onboarding.jpg)
 
 ##### Configuration API
 
@@ -505,13 +512,13 @@ This API provides all the essential endpoints for adding a farm company, farm, e
 
 *Purpose*:
 
-- This API is built on GraphQL (for reasons behind choosing GraphQL, refer to the ADR: [InsightsAPI](./adr_insightsAPI_graphql.md)). Upon successful user login, the API retrieves all necessary details for the farms the user has access to and organizes these farms based on their respective regions. It then initiates synchronous API calls to all regional APIs to gather the required data, such as alarms or telemetry. This data is consolidated and relayed to the caller. However, it's crucial to note that tail-end latencies can potentially impact the performance of this API. Additionally, this API is equipped to fetch insights generated by the advanced analytics service.
+- This API is built on GraphQL (for reasons behind choosing GraphQL, refer to the ADR: [InsightsAPI](./adr/adr_insightsAPI_graphql.md)). Upon successful user login, the API retrieves all necessary details for the farms the user has access to and organizes these farms based on their respective regions. It then initiates synchronous API calls to all regional APIs to gather the required data, such as alarms or telemetry. This data is consolidated and relayed to the caller. However, it's crucial to note that tail-end latencies can potentially impact the performance of this API. Additionally, this API is equipped to fetch insights generated by the advanced analytics service.
 
 ##### Model Service
 
 *Purpose*:
 
-This acts as a facade for the digital twin data stored in the graph database (for reasons behind choosing a Graph database, refer to the  ADR :[GraphDB_ADR](./adr_graphdb.md)). It offers options to create various vertices, edges, and their corresponding attributes, facilitating efficient querying and retrieval of required results.
+This acts as a facade for the digital twin data stored in the graph database (for reasons behind choosing a Graph database, refer to the  ADR :[GraphDB_ADR](./adr/adr_graphdb.md)). It offers options to create various vertices, edges, and their corresponding attributes, facilitating efficient querying and retrieval of required results.
 Additionally, this service publishes change feed or change data capture events to a message broker. This allows other services that rely on digital twin information to build their own copies in the format that best suits their needs. This feature enhances the scalability, flexibility and adaptability of the system, ensuring that all services can effectively utilize the digital twin data.
 
 ##### Notification Service
@@ -532,7 +539,7 @@ The Notification Service processes these alert messages, refers to the model ser
 - The service features an API that utilizes the trained model to predict the yield based on a given set of parameters.
 - Furthermore, if the service identifies any anomalies, it promptly sends alerts to the notification service. This ensures immediate awareness and facilitates timely response to potential issues.
 
-![Analytics Service](./Analytics_Service.png)
+![Analytics Service](./img/Analytics_Service.png)
 
 #### Data Ingestion Layer
 
