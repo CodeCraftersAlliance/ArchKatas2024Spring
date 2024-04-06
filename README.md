@@ -16,6 +16,7 @@
 - [Code Crafters Alliance](#code-crafters-alliance)
     - [Team Members :](#team-members-)
   - [Table of Contents](#table-of-contents)
+  - [Table of Contents](#table-of-contents)
 - [Welcome to Code Crafters Alliance](#welcome-to-code-crafters-alliance)
   - [1. The Problem](#1-the-problem)
     - [1.1 Functional Requirements](#11-functional-requirements)
@@ -34,8 +35,8 @@
   - [2. Solution](#2-solution)
     - [3.1 User Personas](#31-user-personas)
       - [John Doe, the farmer](#john-doe-the-farmer)
-      - [Charles Xavier, the Farm](#charles-xavier-the-Farm)
-      - [Natasha Romanoff, the Farm Administrator](#natasha-romanoff-the-Farm-administrator)
+      - [Charles Xavier, the Farm Owner](#charles-xavier-the-farm-owner)
+      - [Natasha Romanoff, the Farm Administrator](#natasha-romanoff-the-farm-administrator)
       - [Nick Fury, the Integrator](#nick-fury-the-integrator)
       - [Tony Stark, the System Administrator](#tony-stark-the-system-administrator)
   - [3.2 Usage Patterns](#32-usage-patterns)
@@ -85,8 +86,8 @@
       - [IOT Edge Runtime](#iot-edge-runtime)
       - [Wi-Fi Direct](#wi-fi-direct)
     - [Conclusion](#conclusion)
-  - [Appendix](#appendix)
-    - [Architecture Decision Records](#6-architecture-decision-records)
+  - [6. Appendix](#6-appendix)
+    - [Architecture Decision Records](#architecture-decision-records)
 
 
 
