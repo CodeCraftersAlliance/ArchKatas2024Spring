@@ -336,10 +336,6 @@ We recommend a combination of microservice and event-driven architecture styles.
 
 ### **4.1 System Architecture : Components**
 
-#### Context
-
-![Context](./C4%208-Context.drawio-sm.png)
-
 #### Component
 
 ![Component](./C4-Component_diagram.jpg)
@@ -535,6 +531,8 @@ The Notification Service processes these alert messages, refers to the model ser
 - This service includes a data lake house that aggregates all telemetry data from regional deployments, as well as a machine learning (ML) training component. It also maintains a persistent database to store insights for future use.
 - The service features an API that utilizes the trained model to predict the yield based on a given set of parameters.
 - Furthermore, if the service identifies any anomalies, it promptly sends alerts to the notification service. This ensures immediate awareness and facilitates timely response to potential issues.
+
+![Analytics Service](./Analytics_Service.png)
 
 #### Data Ingestion Layer
 
