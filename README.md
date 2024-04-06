@@ -4,12 +4,13 @@
 
 
 
-Team Members :
-Nithin Ramgopal 
-Sreedhar Raman
-Poothabalan Somasundaram
-Rahul Singh
-Suresh Muruganandam
+### Team Members :
+
+- Nithin Ramgopal 
+- Sreedhar Raman
+- Poothabalan Somasundaram
+- Rahul Singh
+- Suresh Muruganandam
 
 # Table of Contents
 
