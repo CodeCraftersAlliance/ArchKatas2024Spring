@@ -422,6 +422,10 @@ The system adheres to a specific data flow pattern to ensure efficient data proc
 
 ## 5. Detailed Architecture
 
+### Container Diagram
+
+![ContainerDiagram](./img/C4-Container.jpg)
+
 ### **5.1 Fish watch Data Model**
 
 The main data model of Fishwatch is split into 2 types and we have 3 varieties of Data Stores.
