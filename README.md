@@ -609,9 +609,9 @@ The Notification Service processes these alert messages, refers to the model ser
 
 These microservices work together to provide a scalable and modular architecture, allowing us to efficiently handle different functionalities within our distributed system.
 
-## Appendix
+## 6. Appendix
 
-### 6. Architecture Decision Records
+### Architecture Decision Records
 
 1. [Hybrid_Architecture](./adr/adr_global_and_regional_deployment.md)
 2. [Availability_ADR](./adr/adr_Availability_Per_Region.md)
