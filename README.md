@@ -298,39 +298,103 @@ Since this is always running and processing the incoming event/telemetry data, i
 Manage enclosure is the core setup feature of the system, which includes activities like
 
 - _Adding Enclosure_:
-    Registering the Hub to the Fishwatch system
-    Device provisioning  
-- _Configure Sensors_:
-    Sensor parameters and telemetry configuration
+    Re
+g
+isterin
+g
+ the Hub to the Fishwatch system
+    Device provisionin
+g
+  
+- _Confi
+g
+ure Sensors_:
+    Sensor parameters and telemetry confi
+g
+uration
 
-The Above Requirements drives us to the need of a device Provisioning service and a IOT Hub . This is explained in detail in the subsequent sections.
+The Above Requirements drives us to the need of a device Provisionin
+g
+ service and a IOT Hub . This is explained in detail in the subsequent sections.
 
-#### Gateway Hub
+#### 
+G
+ateway Hub
 
-The requirement of a Gateway Hub, came with need that cellular signals and connection to mainland is wavery.
-Hence we need a Hub at the enclosure to collect the data locally and syncronizing them to Cloud , when the connectivity is restored.
+The requirement of a 
+G
+ateway Hub, came with need that cellular si
+g
+nals and connection to mainland is wavery.
+Hence we need a Hub at the enclosure to collect the data locally and syncronizin
+g
+ them to Cloud , when the connectivity is restored.
 
 ### *2.3 Architecture Characteristics*
 
 #### *Availability*
 
-_Reason_:  Every region (EU, Americas,APAC etc) has its independent deployment of Telemetry DB , which are then aggregated globally for a multi national corporate. The System supports a small farm to real cross regional enterprise. Fishwatch primary purpose is to monitor enclosure health in real time, any system downtime could delay the detection of critical issues, leading to potential harm or even loss of business for its customers. High availability is also needed to ensure that alerts for abnormal conditions are delivered promptly, enabling customers to respond quickly in emergencies.
+_Reason_:  Every re
+g
+ion (EU, Americas,APAC etc) has its independent deployment of Telemetry DB , which are then a
+g
+
+g
+re
+g
+ated 
+g
+lobally for a multi national corporate. The System supports a small farm to real cross re
+g
+ional enterprise. Fishwatch primary purpose is to monitor enclosure health in real time, any system downtime could delay the detection of critical issues, leadin
+g
+ to potential harm or even loss of business for its customers. Hi
+g
+h availability is also needed to ensure that alerts for abnormal conditions are delivered promptly, enablin
+g
+ customers to respond quickly in emer
+g
+encies.
 
 _Impact on Architecture:_
 
-- We have added provision for load balancing in the data ingestion module.
-- We have adopted Extract-Load-Transform (ELT) architecture for running ML Pipeline and analytics.
+- We have added provision for load balancin
+g
+ in the data in
+g
+estion module.
+- We have adopted Extract-Load-Transform (ELT) architecture for runnin
+g
+ ML Pipeline and analytics.
 
-#### *Data Integrity*
+#### *Data Inte
+g
+rity*
 
-_Reason_: Decision Support systems rely on accurate and reliable enclosure data. Therefore, FishWatch needs high data integrity, meaning the data across the system must be free from incorrect modification and loss.
+_Reason_: Decision Support systems rely on accurate and reliable enclosure data. Therefore, FishWatch needs hi
+g
+h data inte
+g
+rity, meanin
+g
+ the data across the system must be free from incorrect modification and loss.
 
 _Impact on Architecture:_
-    -   We have adopted shared databases, orchestrated through a telemetry pipeline ensuring reliable services.
+    -   We have adopted shared databases, orchestrated throu
+g
+h a telemetry pipeline ensurin
+g
+ reliable services.
 
 #### *Data Consistency*
 
-_Reason:_ Fishwatch system must also ensure that the sensor readings ingested, stored, and displayed reflect the current state of the Enclosure.As the nature of data is event driven, and data though important not life critical, we have chosen eventual consistency for telemetry data over ACID Compliant store.
+_Reason:_ Fishwatch system must also ensure that the sensor readin
+g
+s in
+g
+ested, stored, and displayed reflect the current state of the Enclosure.As the nature of data is event driven, and data thou
+g
+h important not life critical, we have chosen eventual consistency for telemetry data over ACID Compliant store.
 
 _Impact on Architecture:_
     - We have adopted timeseries Document NOSQL DB as a shared database to be implemented on the cloud.
@@ -462,7 +526,7 @@ The main data model of Fishwatch is split into 2 types and we have 3 varieties o
 
     ![GraphModel](./img/C4%2010-GraphModel.png)
 
-*Rationale*: The Decision for the GraphDB is recorded in the [ADR_GraphDB](./img/adr_graphdb.md)
+*Rationale*: The Decision for the GraphDB is recorded in the [ADR_GraphDB](.adr/adr_graphdb.md)
 
 *Note*: The System is designed extensible, the Same model can be extended to other livestocks with a similar setup,
 
