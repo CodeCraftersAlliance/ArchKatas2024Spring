@@ -13,10 +13,6 @@
 
 ## Table of Contents 
 
-- [Code Crafters Alliance](#code-crafters-alliance)
-    - [Team Members :](#team-members-)
-  - [Table of Contents](#table-of-contents)
-  - [Table of Contents](#table-of-contents)
 - [Welcome to Code Crafters Alliance](#welcome-to-code-crafters-alliance)
   - [1. The Problem](#1-the-problem)
     - [1.1 Functional Requirements](#11-functional-requirements)
@@ -33,13 +29,13 @@
         - [Table: Users and Roles](#table-users-and-roles)
   - [1.4 Constraints and Assumptions](#14-constraints-and-assumptions)
   - [2. Solution](#2-solution)
-    - [3.1 User Personas](#31-user-personas)
+    - [2.1 User Personas](#21-user-personas)
       - [John Doe, the farmer](#john-doe-the-farmer)
       - [Charles Xavier, the Farm Owner](#charles-xavier-the-farm-owner)
       - [Natasha Romanoff, the Farm Administrator](#natasha-romanoff-the-farm-administrator)
       - [Nick Fury, the Integrator](#nick-fury-the-integrator)
       - [Tony Stark, the System Administrator](#tony-stark-the-system-administrator)
-  - [3.2 Usage Patterns](#32-usage-patterns)
+  - [2.2 Usage Patterns](#22-usage-patterns)
     - [Need for Admin Screens](#need-for-admin-screens)
       - [*FishWatch Monitor Screen*](#fishwatch-monitor-screen)
       - [*Notification History/Alerts History*](#notification-historyalerts-history)
@@ -47,22 +43,23 @@
       - [*Configure Rules*](#configure-rules)
       - [*Manage Enclosures*](#manage-enclosures)
       - [Gateway Hub](#gateway-hub)
-    - [*3.3 Architecture Characteristics*](#33-architecture-characteristics)
+    - [*2.3 Architecture Characteristics*](#23-architecture-characteristics)
       - [*Availability*](#availability)
       - [*Data Integrity*](#data-integrity)
       - [*Data Consistency*](#data-consistency)
       - [*Fault Tolerance*](#fault-tolerance)
       - [Concurrency](#concurrency)
       - [Performance](#performance)
-    - [3.4 Architecture Style](#34-architecture-style)
-  - [4 System Architecture : Components](#4-system-architecture--components)
-    - [4.1 System Architecture : Components](#41-system-architecture--components)
+    - [2.4 Architecture Style](#24-architecture-style)
+  - [3 System Architecture : Components](#3-system-architecture--components)
+    - [3.1 System Architecture : Components](#31-system-architecture--components)
       - [Component](#component)
     - [4.2 System Architecture : Dataflow](#42-system-architecture--dataflow)
-  - [5. Detailed Architecture](#5-detailed-architecture)
-    - [5.1 Fish watch Data Model](#51-fish-watch-data-model)
-    - [5.2 Microservice Independence](#52-microservice-independence)
-    - [5.3 Microservice Descriptions](#53-microservice-descriptions)
+  - [4. Detailed Architecture](#4-detailed-architecture)
+    - [Container Diagram](#container-diagram)
+    - [4.1 Fish watch Data Model](#41-fish-watch-data-model)
+    - [4.2 Microservice Independence](#42-microservice-independence)
+    - [4.3 Microservice Descriptions](#43-microservice-descriptions)
       - [Overview](#overview)
       - [API Gateway](#api-gateway)
       - [Device access and Config layer (deployed globally)](#device-access-and-config-layer-deployed-globally)
@@ -77,7 +74,7 @@
         - [Telemetry Ingestion Service](#telemetry-ingestion-service)
         - [Alert Processing Service](#alert-processing-service)
         - [Weather Data Ingestion Service](#weather-data-ingestion-service)
-    - [5.4 Gateway Services](#54-gateway-services)
+    - [4.4 Gateway Services](#44-gateway-services)
       - [Device Driver](#device-driver)
       - [Gateway Persistence Layer](#gateway-persistence-layer)
       - [Config and Telemetry Db](#config-and-telemetry-db)
@@ -86,20 +83,46 @@
       - [IOT Edge Runtime](#iot-edge-runtime)
       - [Wi-Fi Direct](#wi-fi-direct)
     - [Conclusion](#conclusion)
-  - [6. Appendix](#6-appendix)
+  - [5. Appendix](#5-appendix)
     - [Architecture Decision Records](#architecture-decision-records)
-
-
 
 # Welcome to Code Crafters Alliance
 
-Repository for Code Crafters Alliance solution to O'Reilly 2024 Spring Architectural Katas Challenge.
+We were presented with a need for developing a Fish Farm Management System FishWatch for Livestock Insights Inc.
+
+The High level requirements are as follows:
+
+- Customers operate multiple fish farms in various locations.
+- Farm size varies from single farm customers to large clients with over a hundred farms.
+- Each farm has multiple enclosures for fish, ranging from ten to over a thousand.
+- Large farms may house over a million fish.
+- Each farm may contain a variety of different fish species.
+- Water monitors in each enclosure capture water quality information (PH, temperature, salinity, oxygen levels, etc.).
+- Underwater cameras in each enclosure monitor fish health (size, activity, parasite detection).
+- A beta feature for individual fish identification via fish-ual recognition is live.
+- Farmers need customizable dashboards to view collected information.
+- Farmers should be able to set alert thresholds for various factors, including PH levels and upcoming adverse weather events.
+- Timely alert generation is crucial to prevent potential damage from sudden water quality degradation or adverse weather.
+- Information about fish harvested from each farm is tracked.
+- This information, along with raw data, should be used to build models for optimizing harvests.
+- Large customers should be able to derive insights across multiple farms.
+- Fish Watch should be accessible from various devices, including rugged industrial devices used at sea.
+- Fish farms are often in remote locations with poor cellular signal.
+- Hardware devices for water information capture and fish behavior detection exist, but their data transmission method needs to be defined.
+
+- **Future Considerations**
+  - Livestock Insights Inc. is considering expanding the system's capabilities to cattle and aquarium fish health monitoring.
 
 ## 1. The Problem
 
 ### 1.1 Functional Requirements
 
 From the problem statement, we extracted the following core requirements to guide our proposed architecture for the FishWatch system.
+
+#### **Context Diagram**
+![ContextDiagram](./img/Context_Diagram.jpg)
+
+We visualised the Context and arrived at high level the below subsystems
 
 #### Data Ingestion/Acquisition
 
@@ -162,7 +185,7 @@ The system should be scalable to accommodate increasing number of Enclosure and 
 
 In this section, we describe user personas and usage pattern analysis, which we used to help us make specific architectural choices. Notably, these analyses guided the particular components in our architecture. Subsequently, we specify the priority of order of architectural characteristics, followed by the proposed architectural style.
 
-### 3.1 User Personas
+### 2.1 User Personas
 
 It is essential to identify the needs of users who will directly use the FishWatch™ system. We have come up with user personas early in architecture development so that they can guide a product that will serve users' best interests.
 
@@ -200,7 +223,7 @@ Tony is responsible for the understanding and upkeep of all of the Fishwatch. He
 - Ensure that system is available all the time
 His errands include trying to stay ahead of issues and perform maintenance at times that will not stress out the function of systems. He could be notified in a disaster, but would prefer to have that situation covered ahead of time and not have to scramble to bring a system back up.
 
-## 3.2 Usage Patterns
+## 2.2 Usage Patterns
 
 When we started designing our solution, we found it important to thoroughly understand how this system would be used.
 
@@ -287,7 +310,7 @@ The Above Requirements drives us to the need of a device Provisioning service an
 The requirement of a Gateway Hub, came with need that cellular signals and connection to mainland is wavery.
 Hence we need a Hub at the enclosure to collect the data locally and syncronizing them to Cloud , when the connectivity is restored.
 
-### *3.3 Architecture Characteristics*
+### *2.3 Architecture Characteristics*
 
 #### *Availability*
 
@@ -340,7 +363,7 @@ _Impact on Architecture:_
 - We have adopted interactions to be asynchronous where a response is not needed.
 - We have designed the serverless services to handle concurrent requests and scale horizontally.
 
-### 3.4 Architecture Style
+### 2.4 Architecture Style
 
 We recommend a combination of microservice and event-driven architecture styles.
 
@@ -348,14 +371,17 @@ We recommend a combination of microservice and event-driven architecture styles.
 - Event-driven architecture will enable real-time capabilities. Various components can subscribe to events and receive them as asynchronous messages. eg: a Live Alert can be immediately served to the User interface and parallelly this message can be queued and processed to the database, there by making it near real-time and decoupling them.
 - As in microservices, we have minimised data sharing among microservices, The Event driven module ( Alerts and Notifications) uses Telemetry Databases, while Manage Enclosures and Rules uses a GraphDB as it allows us to define complex relationships . The shared database style is suitable because Fishwatch MonitorMe needs to prioritize data integrity and maintainability over data isolation .
 - We have followed, Global-Regional Hybrid architecture for deploying our services. The deployment looks at a high level as shown below: 
-Decision for Global Regional Deployment model ADR can be found [GlobalRegionADR](./adr/adr_global_and_regional_deployment.md)
+
+Decision for Global Regional Deployment model ADR can be found [ADR_global_and_Regional_Deployment.md](./adr/adr_global_and_regional_deployment.md)
+Availability per region [ADR_Availability_Per_Region](./adr/adr_Availability_Per_Region.md)
+
 ![DeploymentView](./img/Deployment_view.jpg)
 
 
 
-## **4 System Architecture : Components**
+## **3 System Architecture : Components**
 
-### **4.1 System Architecture : Components**
+### **3.1 System Architecture : Components**
 
 #### Component
 
@@ -420,13 +446,13 @@ The system adheres to a specific data flow pattern to ensure efficient data proc
     - The analyzed data or derived results are presented to end-users or other systems in a consumable format, such as reports, dashboards, APIs, or other data delivery methods.
     - Generated alerts are sent to users as email, SMS, or push notifications, according to the user's configured preferences for alert notifications.
 
-## 5. Detailed Architecture
+## 4. Detailed Architecture
 
 ### Container Diagram
 
 ![ContainerDiagram](./img/C4-Container.jpg)
 
-### **5.1 Fish watch Data Model**
+### **4.1 Fish watch Data Model**
 
 The main data model of Fishwatch is split into 2 types and we have 3 varieties of Data Stores.
 
@@ -462,9 +488,9 @@ The Cloud Events model is explained in detail in the document link [CloudEvents 
 *Rationale*:
 
 - The decision for selecting CloudEvents model is recorded in the [ADR_CloudEvents](./adr/adr_CloudEvents.md).
-- Timeseries Database selection is recorded in the [Timeseries ADR](./adr/adr_timeseriesdatabase_for_storing_telemetry.md)
+- Timeseries Database selection is recorded in the [ADR_TimeseriesDatabase_For_Storing_telemetry](./adr/adr_timeseriesdatabase_for_storing_telemetry.md)
 
-### **5.2 Microservice Independence**
+### **4.2 Microservice Independence**
 
 Each Important microservice shall maintain a model copy of relevant information to maintain their independence. This is achieved through: 
 
@@ -478,7 +504,7 @@ The detailed flow for creating local copies that can be independently scaled alo
 ![DistributedModel](./img/Microservice_independence.jpg)
 
 
-### 5.3 Microservice Descriptions
+### 4.3 Microservice Descriptions
 
 #### **Overview**
 
@@ -514,7 +540,7 @@ Each manufactured gateway comes pre configured with authentication credentials a
 - The Gateway Provisioning Service receives the unique gateway device ID and registration information from the assigned hub and relays this information back to the gateway device. The gateway then uses its registration information to connect directly to its assigned IoT hub and authenticate itself.
 - Following successful authentication, the gateway and IoT hub commence direct communication. The Gateway Provisioning Service's role as an intermediary concludes at this point, unless the gateway requires re provisioning in the future.
 
-The Decision rationale for going for an IOT Hub is in this ADR : [IOT_ADR](./adr/adr_IOTHub.md)
+The Decision rationale for going for an IOT Hub is in this ADR : [ADR_IOTHub](./adr/adr_IOTHub.md)
 
 ##### Onboarding API
 
@@ -532,13 +558,13 @@ This API provides all the essential endpoints for adding a farm company, farm, e
 
 *Purpose*:
 
-- This API is built on GraphQL (for reasons behind choosing GraphQL, refer to the ADR: [InsightsAPI](./adr/adr_insightsAPI_graphql.md)). Upon successful user login, the API retrieves all necessary details for the farms the user has access to and organizes these farms based on their respective regions. It then initiates synchronous API calls to all regional APIs to gather the required data, such as alarms or telemetry. This data is consolidated and relayed to the caller. However, it's crucial to note that tail-end latencies can potentially impact the performance of this API. Additionally, this API is equipped to fetch insights generated by the advanced analytics service.
+- This API is built on GraphQL (for reasons behind choosing GraphQL, refer to the ADR: [adr_InsightsAPI_GraphQL](./adr/adr_insightsAPI_graphql.md)). Upon successful user login, the API retrieves all necessary details for the farms the user has access to and organizes these farms based on their respective regions. It then initiates synchronous API calls to all regional APIs to gather the required data, such as alarms or telemetry. This data is consolidated and relayed to the caller. However, it's crucial to note that tail-end latencies can potentially impact the performance of this API. Additionally, this API is equipped to fetch insights generated by the advanced analytics service.
 
 ##### Model Service
 
 *Purpose*:
 
-This acts as a facade for the digital twin data stored in the graph database (for reasons behind choosing a Graph database, refer to the  ADR :[GraphDB_ADR](./adr/adr_graphdb.md)). It offers options to create various vertices, edges, and their corresponding attributes, facilitating efficient querying and retrieval of required results.
+This acts as a facade for the digital twin data stored in the graph database (for reasons behind choosing a Graph database, refer to the  ADR :[ADR_GraphQL](./adr/adr_graphdb.md)). It offers options to create various vertices, edges, and their corresponding attributes, facilitating efficient querying and retrieval of required results.
 Additionally, this service publishes change feed or change data capture events to a message broker. This allows other services that rely on digital twin information to build their own copies in the format that best suits their needs. This feature enhances the scalability, flexibility and adaptability of the system, ensuring that all services can effectively utilize the digital twin data.
 
 ##### Notification Service
@@ -575,7 +601,7 @@ The Notification Service processes these alert messages, refers to the model ser
 
 *Purpose*: This is a continuously running background job that fetches weather information for all locations where farms are situated. The list of farms and their locations is retrieved from its own replica of the digital twin model database. The service then stores this weather data into the time series database.
 
-### 5.4 Gateway Services
+### 4.4 Gateway Services
 
 ![Gateway Services](./img/Gateway-Arch.jpg)
 
@@ -614,16 +640,16 @@ The Notification Service processes these alert messages, refers to the model ser
 
 These microservices work together to provide a scalable and modular architecture, allowing us to efficiently handle different functionalities within our distributed system.
 
-## 6. Appendix
+## 5. Appendix
 
 ### Architecture Decision Records
 
-1. [Hybrid_Architecture](./adr/adr_global_and_regional_deployment.md)
-2. [Availability_ADR](./adr/adr_Availability_Per_Region.md)
-3. [Time_Series_ADR](./adr/adr_timeseriesdatabase_for_storing_telemetry.md)
-4. [Graph_ADR](./adr/adr_graphdb.md)
-5. [CloudEvents.io](./adr/adr_CloudEvents.md)
-6. [IOT Hub](./adr/adr_IOTHub.md)
-7. [Insights API](./adr/adr_insightsAPI_graphql.md)
-8. [Local_Storage_In_Gateway](./Adr/adr_Local_Storage_In_Gateway.md)
+1. [ADR_GLobal_and_regional_Deployment](./adr/adr_global_and_regional_deployment.md)
+2. [ADR_Availability_Per_Region](./adr/adr_Availability_Per_Region.md)
+3. [ADR_timeSeries_For_Storing_Telemetry](./adr/adr_timeseriesdatabase_for_storing_telemetry.md)
+4. [ADR_GraphDB](./adr/adr_graphdb.md)
+5. [ADR_CloudEvents](./adr/adr_CloudEvents.md)
+6. [ADR_IOTHub](./adr/adr_IOTHub.md)
+7. [ADR_InsightsAPI_GraphQL](./adr/adr_insightsAPI_graphql.md)
+8. [ADR_Local_Storage_In_Gateway](./Adr/adr_Local_Storage_In_Gateway.md)
 
