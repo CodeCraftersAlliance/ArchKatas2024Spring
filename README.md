@@ -526,7 +526,7 @@ The main data model of Fishwatch is split into 2 types and we have 3 varieties o
 
     ![GraphModel](./img/C4%2010-GraphModel.png)
 
-*Rationale*: The Decision for the GraphDB is recorded in the [ADR_GraphDB](.adr/adr_graphdb.md)
+*Rationale*: The Decision for the GraphDB is recorded in the [ADR_GraphDB](./adr/adr_graphdb.md)
 
 *Note*: The System is designed extensible, the Same model can be extended to other livestocks with a similar setup,
 
