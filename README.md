@@ -476,11 +476,11 @@ The data is stored in the telemetry database which is a timeseries documennt DB 
 |-----------|-------|-------------------------|
 |type |String| "com.codecraftersalliance.evt.v1"|
 |specversion| String| "1.0"
-|source| |URI-reference| "/skaneFarm/gateway01/temp01"|
-|subject| |String| "temperature value"|
+|source|URI-reference| "/skaneFarm/gateway01/temp01"|
+|subject|String| "temperature value"|
 |id |String |"1234-1234-1234"|
-|value| |String| (null) null|
-|time| |Timestamp| "2024-04-05T17:31:00Z"|
+|value|String|"25"|
+|reportedAt|Timestamp| "2024-04-05T17:31:00Z"|
 |datacontenttype |String| "application/json"|
 
 The Cloud Events model is explained in detail in the document link [CloudEvents Model](./Cloudevents-json-format.md)
