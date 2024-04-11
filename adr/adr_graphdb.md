@@ -19,5 +19,6 @@ The decision to use a Graph Database is based on the following reasons:
 
 **Impact:**
 The benefits of efficient relationship handling, performance, and flexibility make it a worthwhile choice.
+
 **Status**:
 Decided
