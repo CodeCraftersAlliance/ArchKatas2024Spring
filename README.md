@@ -96,7 +96,7 @@ The High level technical and Non functional requirements are as follows:
 | --- | --- | 
 | **Technical Requirements** | |
 | TR-01 | System should support multiple fish farms in various locations. | 
-| TR-2 | System should support farms of varying sizes, from single farm customers to large clients with over a hundred farms. | 
+| TR-02 | System should support farms of varying sizes, from single farm customers to large clients with over a hundred farms. | 
 | TR-03 | System should support multiple enclosures for fish per farm, ranging from ten to over a thousand. | 
 | TR-04 | System should support large farms housing over a million fish. | 
 | TR-05 | System should support a variety of different fish species per farm. | 
