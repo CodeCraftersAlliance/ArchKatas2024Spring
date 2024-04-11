@@ -10,6 +10,7 @@ Our digital twin database is composed of several interconnected entities: Farm C
 
 **Decision:**
 We have decided to use a Graph Database as our preferred persistent storage.
+
 **Rationale**:
 The decision to use a Graph Database is based on the following reasons:
 1. Efficient Handling of Complex Relationships: Graph databases excel at managing interconnected data. They can efficiently handle the complex relationships between our entities.

@@ -176,11 +176,19 @@ The system should be scalable to accommodate increasing number of Enclosure and 
 
 ## 1.4 Constraints and Assumptions
 
-- We have developed a fault-tolerant and high-availability architecture. We have considered The Databases to be PaaS service with redundancy mechanisms, providing failover capabilities to maintain service availability in case of component failures, and business continuity strategies using response and recovery are necessary.
-- Our architecture has put data collection at enclosure level as priority, considering fluctuating cellular networks and internet availability. We present a hybrid architecture with on and off connectivity to cloud. We have assumed that the farmers shall be provided with rugged devices/mobile devices which shall have Wifi Connectivity to connect to the enclosure Edge Hubs on Access Points points to access real time data.
-- Although we have briefly discussed system Administrator and Integrator, it is not the central topic in our architecture. System administration includes reviewing software and hardware health, performing updates, and backing up data. We assume that Livestock Inc shall be having trained professionals, who setup the sensors and enclosure and make the system ready for the Farm to consume henceforth. He also shall be responsible contact for any field issues wrt to sensors and enclosures. We have intentionally not elaborated on this role in the document for the above assumption.
-- We have assumed that local weather shall be available through publicly available Weather API. We have provided specific descriptions of such data records and related assumptions in later sections of this document.
-- Our premise is that, the camera systems with analytics features are available to improve their surveillance, monitoring, and decision-making processes. These cameras can stream live videos and use advanced analytics algorithms to generate useful insights, spot irregularities, and enable smart automation.
+- We have developed an architecture that is fault-tolerant and ensures high availability.
+- The databases in our system are considered to be a Platform as a Service (**PaaS**) with built-in redundancy mechanisms. These mechanisms provide failover capabilities to maintain service availability in the event of component failures.
+- We assume that all databases will be encrypted at rest, and their data will be accessed over encrypted channels. This is to ensure the security and privacy of the data.
+- We have implemented business continuity strategies that use response and recovery methods to ensure the system remains operational.
+- Our architecture prioritizes data collection at the enclosure level, taking into account the variability of cellular networks and internet availability.
+- We propose a hybrid architecture that can function with both on and off connectivity to the cloud.
+- We assume that farmers will be provided with rugged devices or mobile devices. These devices will have Wi-Fi connectivity, allowing them to connect to the enclosure Edge Hubs on Access Points and access real-time data.
+- While we have briefly discussed the roles of the system administrator and integrator, they are not the central focus of our architecture.
+- System administration tasks include reviewing software and hardware health, performing updates, and backing up data.
+- We assume that Livestock Inc will employ trained professionals who will set up the sensors and enclosure, making the system ready for the farm to use. These professionals will also be the point of contact for any field issues related to sensors and enclosures.
+- We have intentionally not elaborated on this role in the document due to the above assumption.
+- We assume that local weather data will be available through publicly accessible Weather APIs. We provide specific descriptions of such data records and related assumptions in later sections of this document.
+- Our premise is that camera systems with analytics features will be available to enhance surveillance, monitoring, and decision-making processes. These cameras can stream live videos and use advanced analytics algorithms to generate useful insights, spot irregularities, and enable smart automation.
 
 
 ## 2. Solution
@@ -193,69 +201,81 @@ It is essential to identify the needs of users who will directly use the FishWat
 
 #### John Doe, the farmer
 
-John Doe is a Farmer who monitors the enclosure(s) in a farm. He is usually associated to 1 or more enclosure.
-His job consists of :
+John Doe is a farmer who is responsible for monitoring one or more enclosures on a farm.
+His duties include:
+- Conducting regular rounds of the enclosures to monitor various situations and reporting them as necessary.
+- Dispensing feed to the farm animals at regular intervals.
+- Assessing the growth of the farm animals and determining the appropriate time for harvest.
+- Administering medicine to the farm animals if any infection is detected.
+- Responding to any emergencies that may arise due to weather conditions or other external factors.
 
-- Regular rounds of the enclosures monitoring various situations  and report them further
-- Dispensing feeds on regular intervals for the Farm animal.
-- Assessing the farm animal growth and timing the harvest.
-- His job also involves of medicines to the farm animal in case of any infection found.
-- Responding to any exigency arising due to weather factors and other external factors.
-He spends most of his day at the farm attending to needs of enclosure and other operations.
-It would be very helpful for him, if the valuable information is available to him on regular basis for him to take appropriate action.
+John spends most of his day on the farm, attending to the needs of the enclosures and managing other operations.
+
+It would be beneficial for him to have access to valuable information on a regular basis, enabling him to take appropriate action when necessary.
 
 #### Charles Xavier, the Farm Owner
 
-Charles, is usually an owner of the farm, he is rarely at one location for long, if he has more than one farm. His time is spent monitoring and overseeing the operations of the farm. He usually employs the farmers to work in a farm
-In a typical single farm or small farm, he is normally the person, who also works as a farmer. Hence information on the vital parameters at his fingertips, improves his productivity and also allows him to respond to the situation in a timely manner.
+Charles is typically the owner of the farm and often oversees multiple locations if he owns more than one farm. As such, he rarely stays in one place for long.
+- His time is primarily spent monitoring and overseeing the operations of the farm(s).
+- He usually employs farmers to work on the farm.
+- In the case of a single or small farm, Charles often takes on the role of a farmer himself.
+- Having access to vital parameters at his fingertips improves his productivity and allows him to respond to situations in a timely manner.
 
 #### Natasha Romanoff, the Farm Administrator
 
-In a farm, generally Farm Administrator is also a owner of Farm ,but in case of larger farms distributed across geography, a Farm administrator would be the farm in charge who is responsible for creating farm users in the system and allocating John Doe (farmer) an enclosure. Natasha also would be responsible for monitoring the farm health and review trends and identify potential issues in the farm.
+In a typical farm setting, the Farm Administrator is often also the owner of the farm. 
+- However, in the case of larger farms spread across different geographical locations, the Farm Administrator is usually the person in charge of the farm.
+- The Farm Administrator is responsible for creating farm users in the system and assigning enclosures to farmers, such as John Doe.
+- The Farm Administrator, who could be someone like Natasha, is also responsible for monitoring the health of the farm, reviewing trends, and identifying potential issues on the farm.
 
 #### Nick Fury, the Integrator
 
-Nick sets up the LiveStock® FishWatch™ system , including setup of sensors, configuring them, training the farmers and customers to use the system. He could be a franchisee of the Livestock Insights / Employee of LiveStock Insights.
+- Nick is responsible for setting up the LiveStock® FishWatch™ system.
+- His duties include creating a Farm customer, creating farms, associating one or more gateways to the farms, provisioning the gateways, setting up sensors, configuring them, and training farmers and customers on how to use the system.
+- Nick could either be a franchisee of Livestock Insights or an employee of the same company.
 
 #### Tony Stark, the System Administrator
 
-Tony is responsible for the understanding and upkeep of all of the Fishwatch. He is available as a representative of the LiveStock Insights Inc .
-
-- available at a notice to troubleshoot
-- Ensure that system is available all the time
-His errands include trying to stay ahead of issues and perform maintenance at times that will not stress out the function of systems. He could be notified in a disaster, but would prefer to have that situation covered ahead of time and not have to scramble to bring a system back up.
+- Tony is responsible for understanding and maintaining all aspects of Fishwatch. He represents LiveStock Insights Inc.
+- He is available on short notice to troubleshoot any issues.
+- Tony ensures that the system is available at all times.
+- His tasks include proactively identifying potential issues and performing maintenance at times that will not disrupt the system's functionality.
+- While Tony can be notified in the event of a disaster, he prefers to have contingency plans in place ahead of time to avoid scrambling to restore the system.
 
 ## 2.2 Usage Patterns
 
 When we started designing our solution, we found it important to thoroughly understand how this system would be used.
 
-- The Farmer can see the status of the each sensor and hub Status with the Fishwatch(R) app.
-- Each sensor is considered independent in operation and does not affect the others in the event of a failure.
-- The alerts must be dismissible, to keep the screen clear, hence there needs to be a functionality for acknowledge and the farmer can notify this to his admin on the account of device failure / take appropriate action in case of any other event.
-- Farmer/admin  should also be able to view the past notifications in a separate window
-- Administrator should be able to allocate farmer to a farm/ enclosure
-- Screen for viewing the Trend over time
+- The farmer can view the status of each sensor and hub using the Fishwatch(R) app.
+- Each sensor operates independently and a failure in one does not affect the others.
+- Alerts should be dismissible to keep the screen clear. There should be a functionality to acknowledge these alerts. In case of device failure or any other event, the farmer can notify the admin or take appropriate action.
+- Both the farmer and the admin should be able to view past notifications in a separate window.
+- The administrator should have the ability to assign a farmer to a specific farm or enclosure.
+- There should be a screen for viewing the trend of alerts or telemetry or other ML insights over time.
 
 ### Need for Admin Screens
 
-With the above use cases, we were able to start organizing our architecture. We have several requirements that need user input, especially with Configuration of the rules and other administrative activities like Role based access and resource allocation to farmers.
-By splitting the screen, we can treat the monitoring screen as a read-only display of data and set of admin screens available only to Farm Administrator and the Farm.
-The new admin screen fields user inputs for configuring the sensors.
+Given the above use cases, we have begun to organize our architecture. We have several requirements that necessitate user input, particularly for configuring rules and performing administrative activities such as role-based access and resource allocation to farmers.
+
+By dividing the screen, we can treat the monitoring screen as a read-only display of data, with a set of admin screens available exclusively to the Farm Administrator and the Farm.
+
+The new admin screen accepts user inputs for configuring the sensors and gateways, provides options to run diagnostics on them, and allows setting calibration offsets for the sensors.
+
 We can define the "Model DB / Digital Twin" component as an input for setup and analysis.
 
 Admin Screens include
 
 - _Configure Rules:_  Elaborated in the section below
-- _Manage Users:_ This section has been deliberately omitted, as this contains the basic User configuration associating them with appropriate identified roles in the system
+- _Manage Users:_ This section has been deliberately omitted, as this contains the basic User configuration associating them with the farms within a Farm company, and associate them with appropriate identified roles in the system.
 - _Firmware updates:_ this section also been deliberately omitted , as its planned for a later iteration
-- _Manage Enclosures:_ This is meant to add/ remove sensors in the system, Device Provisioning and registration etc. There is no specific UI defined in this, it is assumed there exists a screen.
+- _Manage Enclosures:_ This is meant to add/ remove sensors in the system, Gateway Provisioning and registration etc. There is no specific UI defined in this, it is assumed there exists a screen.
 
 #### *FishWatch Monitor Screen*
 
 We started by imagining the consolidated monitoring screen that is available at Farmers Device ( Rugged/ Mobile/PC ).
 An **Enclosure** and a **Livestock** are two distinct data types. The **Enclosure**  represents a physical apparatus , that the sensors are fixed to. It also houses a **Hub**, which collects data from the sensors.
 
-The Landing  screen shall give the farmer the most important snapshot of the current activity in the enclosure . He shall also be able to view Enclosure to enclosure through a carousel view.
+The landing screen should provide the farmer with a snapshot of the current activity in the enclosure. The farmer should also be able to view different enclosures through a carousel view.
 
 ![Dashboard](./img/Farmer_sm.png)
 
@@ -316,7 +336,7 @@ The requirement of a Gateway Hub, came with need that cellular signals and conne
 
 #### *Availability*
 
-_Reason_:  Every region (EU, Americas,APAC etc) has its independent deployment of Telemetry DB , which are then aggregated globally for a multi national corporate. The System supports a small farm to real cross regional enterprise. Fishwatch primary purpose is to monitor enclosure health in real time, any system downtime could delay the detection of critical issues, leading to potential harm or even loss of business for its customers. High availability is also needed to ensure that alerts for abnormal conditions are delivered promptly, enabling customers to respond quickly in emergencies.
+_Reason_:  Every region (EU, Americas,APAC etc) has its independent deployment of Telemetry DB, which are then aggregated globally for a multi national corporate. The System supports a small farm to real cross regional enterprise. Fishwatch primary purpose is to monitor enclosure health in real time, any system downtime could delay the detection of critical issues, leading to potential harm or even loss of business for its customers. High availability is also needed to ensure that alerts for abnormal conditions are delivered promptly, enabling customers to respond quickly in emergencies.
 
 _Impact on Architecture:_
 
@@ -325,40 +345,35 @@ _Impact on Architecture:_
 
 #### *Data Integrity*
 
-_Reason_: Decision Support systems rely on accurate and reliable enclosure data. Therefore, FishWatch needs high data integrity, meaning  the data across the system must be free from incorrect modification and loss.
+_Reason_: Reliable Farm health monitoring systems rely on accurate and reliable enclosure data. Therefore, FishWatch needs high data integrity, meaning the data across the system must be free from incorrect modification and loss.
 
 _Impact on Architecture:_
-    -   We have adopted shared databases, orchestrated through a telemetry pipeline ensuring reliable services.
+    - Services that are responsible for maintaining and managing the System of Record propagate changes made to the databases as change data capture events or by publishing the change feeds to a message broker. This allows services within different bounded contexts to build their derived databases according to their specific needs.
 
 #### *Data Consistency*
 
-_Reason:_ Fishwatch system must also ensure that the sensor readings ing
-ested, stored, and displayed reflect the current state of the Enclosure.As the nature of data is event driven, and data though important not life critical, we have chosen eventual consistency for telemetry data over ACID Compliant store.
+_Reason:_ The Fishwatch system must ensure that the sensor readings, which are ingested, stored, and displayed, accurately reflect the current state of the enclosure. Given that the data is event-driven and lacks transactions, we have opted for eventual consistency for telemetry data over an ACID-compliant store. Additionally, we chose a graph database to persist the digital twin information due to the complex relationships between entities and the need for high performance.
 
 _Impact on Architecture:_
-    - We have adopted timeseries Document NOSQL DB as a shared database to be implemented on the cloud.
+  - Telemetry data stored in regionally deployed instances is asynchronously pulled at regular intervals to populate the global data lake store. These delays are acceptable as the information in the data lake store is used for training the model and deriving ML insights by inferring the trained models. In this context, eventual consistency is acceptable.
+  - The Model service will ensure that any changes made to the model/digital twin are published. This allows other microservices interested in this data to create their own copy of the model/digital twin data. These changes occur infrequently, so relying on "Eventual Consistency" is a suitable approach in this context.
 
+ 
 #### *Fault Tolerance*
 
-_Reason:_ The Fishwatch system should maintain service while facing failures. The primary failure scenario is, when the enclosure lose connectivity to the Cloud / Sensors stop functioning/ or software components fail. It is essential for the Fishwatch system to still function for monitoring, recording, analyzing, and alerting based on the available data.
-_Impact on Architecture:_
-
-- We store and process each Telemetry timeseries independently of the other.
-- We have designed for the ability to detect sensor failures and the ability to alert a data/system administrator about the failures.
-- We have also incorporated an ability to seamlessly ingest data after a failed component recovers, which essentially uses the distributed message broker architecture.
-
-To tolerate failures, the system must consider redundancy and replication at various levels of the system. They however are assumed implicit and have little impact on the SW architecture.
-
-#### Concurrency
-
-_Reason:_ Fishwatch needs to read, store, and process data from multiple monitoring sources across multiple enclosures deployed across the globe . Therefore, it is necessary to design components to handle concurrent operations and improve performance.
+_Reason:_ The Fishwatch system must maintain service even in the face of failures. The primary failure scenarios include loss of connectivity between the enclosure and the cloud, sensor malfunctions, or software component failures. Despite these potential issues, it's essential for the Fishwatch system to continue monitoring, recording, analyzing, and alerting based on the available data.
 
 _Impact on Architecture:_
-    We have adopted a microservice architecture for data ingestion and analysis components.
+
+- We store and process each telemetry timeseries independently from the others.
+- Our design includes the ability to detect sensor failures and alert a data/system administrator about these failures.
+- We have also incorporated the ability to seamlessly ingest data after a failed component recovers, leveraging the distributed message broker architecture.
+
+To tolerate failures, the system must consider redundancy and replication at various levels. These considerations are assumed to be implicit and have minimal impact on the software architecture. We have intentionally omitted the role of an orchestrator like Kubernetes in ensuring that all services maintain a steady state.
 
 #### Performance
 
-_Reason:_ The system should be able to process requests on demand and be very responsive.The System also should be able to provide a consolidated view in the Monitor screen with avg response time <  2secs
+_Reason:_ The system should be able to process requests on demand and be very responsive. The System also should be able to provide a consolidated view in the Monitor screen with avg response time <  5 secs
 
 _Impact on Architecture:_
 
@@ -375,8 +390,8 @@ We recommend a combination of microservice and event-driven architecture styles.
 - As in microservices, we have minimised data sharing among microservices, The Event driven module ( Alerts and Notifications) uses Telemetry Databases, while Manage Enclosures and Rules uses a GraphDB as it allows us to define complex relationships . The shared database style is suitable because Fishwatch MonitorMe needs to prioritize data integrity and maintainability over data isolation .
 - We have followed, Global-Regional Hybrid architecture for deploying our services. The deployment looks at a high level as shown below: 
 
-Decision for Global Regional Deployment model ADR can be found [ADR-001-global-and-regional-deployment.md](./adr/ADR-001-global-and-regional-deployment.md)
-Availability per region [ADR_Availability_Per_Region](./adr/adr_Availability_Per_Region.md)
+Architecture decision records for Global Regional Deployment model can be found at [ADR-001-global-and-regional-deployment.md](./adr/ADR-001-global-and-regional-deployment.md), Distributed Microservice architecture [ADR-002-distributed-microservices-architecture.md](./adr/ADR-002-distributed-microservices-architecture.md), Availability per region [ADR_Availability_Per_Region](./adr/ADR-005-Availability_Per_Region.md)
+
 
 ![DeploymentView](./img/Deployment_view.jpg)
 
@@ -465,7 +480,7 @@ The main data model of Fishwatch is split into 2 types and we have 3 varieties o
 
     ![GraphModel](./img/C4%2010-GraphModel.png)
 
-*Rationale*: The Decision for the GraphDB is recorded in the [ADR_GraphDB](./adr/adr_graphdb.md)
+*Rationale*: The Decision for the GraphDB is recorded in the [ADR_GraphDB](./adr/ADR-003_graphdb-for-persisting-digital-twin.md)
 
 *Note*: The System is designed extensible, the Same model can be extended to other livestocks with a similar setup,
 
@@ -489,8 +504,8 @@ The Cloud Events model is explained in detail in the document link [CloudEvents 
 
 *Rationale*:
 
-- The decision for selecting CloudEvents model is recorded in the [ADR_CloudEvents](./adr/adr_CloudEvents.md).
-- Timeseries Database selection is recorded in the [ADR_TimeseriesDatabase_For_Storing_telemetry](./adr/adr_timeseriesdatabase_for_storing_telemetry.md)
+- The decision for selecting CloudEvents model is recorded in the [ADR_CloudEvents](./adr/ADR-006-CloudEvents.md).
+- Timeseries Database selection is recorded in the [ADR_TimeseriesDatabase_For_Storing_telemetry](./adr/ADR-009-timeseriesdatabase_for_storing_telemetry.md)
 
 ### **4.2 Microservice Independence**
 
@@ -542,7 +557,7 @@ Each manufactured gateway comes pre configured with authentication credentials a
 - The Gateway Provisioning Service receives the unique gateway device ID and registration information from the assigned hub and relays this information back to the gateway device. The gateway then uses its registration information to connect directly to its assigned IoT hub and authenticate itself.
 - Following successful authentication, the gateway and IoT hub commence direct communication. The Gateway Provisioning Service's role as an intermediary concludes at this point, unless the gateway requires re provisioning in the future.
 
-The Decision rationale for going for an IOT Hub is in this ADR : [ADR_IOTHub](./adr/adr_IOTHub.md)
+The Decision rationale for going for an IOT Hub is in this ADR : [ADR_IOTHub](./adr/ADR-008-IOTHub.md)
 
 ##### Onboarding API
 
@@ -560,13 +575,13 @@ This API provides all the essential endpoints for adding a farm company, farm, e
 
 *Purpose*:
 
-- This API is built on GraphQL (for reasons behind choosing GraphQL, refer to the ADR: [adr_InsightsAPI_GraphQL](./adr/adr_insightsAPI_graphql.md)). Upon successful user login, the API retrieves all necessary details for the farms the user has access to and organizes these farms based on their respective regions. It then initiates synchronous API calls to all regional APIs to gather the required data, such as alarms or telemetry. This data is consolidated and relayed to the caller. However, it's crucial to note that tail-end latencies can potentially impact the performance of this API. Additionally, this API is equipped to fetch insights generated by the advanced analytics service.
+- This API is built on GraphQL (for reasons behind choosing GraphQL, refer to the ADR: [adr_InsightsAPI_GraphQL](./adr/ADR-007-insightsAPI_graphql.md)). Upon successful user login, the API retrieves all necessary details for the farms the user has access to and organizes these farms based on their respective regions. It then initiates synchronous API calls to all regional APIs to gather the required data, such as alarms or telemetry. This data is consolidated and relayed to the caller. However, it's crucial to note that tail-end latencies can potentially impact the performance of this API. Additionally, this API is equipped to fetch insights generated by the advanced analytics service.
 
 ##### Model Service
 
 *Purpose*:
 
-This acts as a facade for the digital twin data stored in the graph database (for reasons behind choosing a Graph database, refer to the  ADR :[ADR_GraphQL](./adr/adr_graphdb.md)). It offers options to create various vertices, edges, and their corresponding attributes, facilitating efficient querying and retrieval of required results.
+This acts as a facade for the digital twin data stored in the graph database (for reasons behind choosing a Graph database, refer to the  ADR :[ADR_GraphQL](./adr/ADR-003-graphdb-for-persisting-digital-twin.md)). It offers options to create various vertices, edges, and their corresponding attributes, facilitating efficient querying and retrieval of required results.
 Additionally, this service publishes change feed or change data capture events to a message broker. This allows other services that rely on digital twin information to build their own copies in the format that best suits their needs. This feature enhances the scalability, flexibility and adaptability of the system, ensuring that all services can effectively utilize the digital twin data.
 
 ##### Notification Service
@@ -647,11 +662,11 @@ These microservices work together to provide a scalable and modular architecture
 ### Architecture Decision Records
 
 1. [ADR_GLobal_and_regional_Deployment](./adr/ADR-001-global-and-regional-deployment.md)
-2. [ADR_Availability_Per_Region](./adr/adr_Availability_Per_Region.md)
-3. [ADR_timeSeries_For_Storing_Telemetry](./adr/adr_timeseriesdatabase_for_storing_telemetry.md)
-4. [ADR_GraphDB](./adr/adr_graphdb.md)
-5. [ADR_CloudEvents](./adr/adr_CloudEvents.md)
-6. [ADR_IOTHub](./adr/adr_IOTHub.md)
-7. [ADR_InsightsAPI_GraphQL](./adr/adr_insightsAPI_graphql.md)
-8. [ADR_Local_Storage_In_Gateway](./Adr/adr_Local_Storage_In_Gateway.md)
-
+2. [ADR_Distributed_Microservices](./adr/ADR-002-distributed-microservices-architecture.md)
+3. [ADR_GraphDB](./adr/ADR-003_graphdb-for-persisting-digital-twin.md)
+4. [ADR_Local_Storage_In_Gateway](./adr/ADR-004-Local_Storage_In_Gateway.md)
+5. [ADR_Availability_Per_Region](./adr/ADR-005-Availability_Per_Region.md)
+6. [ADR_CloudEvents](./adr/ADR-006-CloudEvents.md)
+7. [ADR_InsightsAPI_GraphQL](./adr/ADR-007-insightsAPI_graphql.md)
+8. [ADR_IOTHub](./adr/ADR-008-IOTHub.md)
+9. [ADR_timeSeries_For_Storing_Telemetry](./adr/ADR-009-timeseriesdatabase_for_storing_telemetry.md)
