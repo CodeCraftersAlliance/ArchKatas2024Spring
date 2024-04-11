@@ -373,7 +373,7 @@ We recommend a combination of microservice and event-driven architecture styles.
 - As in microservices, we have minimised data sharing among microservices, The Event driven module ( Alerts and Notifications) uses Telemetry Databases, while Manage Enclosures and Rules uses a GraphDB as it allows us to define complex relationships . The shared database style is suitable because Fishwatch MonitorMe needs to prioritize data integrity and maintainability over data isolation .
 - We have followed, Global-Regional Hybrid architecture for deploying our services. The deployment looks at a high level as shown below: 
 
-Decision for Global Regional Deployment model ADR can be found [ADR_global_and_Regional_Deployment.md](./adr/adr_global_and_regional_deployment.md)
+Decision for Global Regional Deployment model ADR can be found [ADR-001-global-and-regional-deployment.md](./adr/ADR-001-global-and-regional-deployment.md)
 Availability per region [ADR_Availability_Per_Region](./adr/adr_Availability_Per_Region.md)
 
 ![DeploymentView](./img/Deployment_view.jpg)
@@ -644,7 +644,7 @@ These microservices work together to provide a scalable and modular architecture
 
 ### Architecture Decision Records
 
-1. [ADR_GLobal_and_regional_Deployment](./adr/adr_global_and_regional_deployment.md)
+1. [ADR_GLobal_and_regional_Deployment](./adr/ADR-001-global-and-regional-deployment.md)
 2. [ADR_Availability_Per_Region](./adr/adr_Availability_Per_Region.md)
 3. [ADR_timeSeries_For_Storing_Telemetry](./adr/adr_timeseriesdatabase_for_storing_telemetry.md)
 4. [ADR_GraphDB](./adr/adr_graphdb.md)
