@@ -90,28 +90,30 @@
 
 We were presented with a need for developing a Fish Farm Management System FishWatch for Livestock Insights Inc.
 
-The High level requirements are as follows:
+The High level technical and Non functional requirements are as follows:
 
-- Customers operate multiple fish farms in various locations.
-- Farm size varies from single farm customers to large clients with over a hundred farms.
-- Each farm has multiple enclosures for fish, ranging from ten to over a thousand.
-- Large farms may house over a million fish.
-- Each farm may contain a variety of different fish species.
-- Water monitors in each enclosure capture water quality information (PH, temperature, salinity, oxygen levels, etc.).
-- Underwater cameras in each enclosure monitor fish health (size, activity, parasite detection).
-- A beta feature for individual fish identification via fish-ual recognition is live.
-- Farmers need customizable dashboards to view collected information.
-- Farmers should be able to set alert thresholds for various factors, including PH levels and upcoming adverse weather events.
-- Timely alert generation is crucial to prevent potential damage from sudden water quality degradation or adverse weather.
-- Information about fish harvested from each farm is tracked.
-- This information, along with raw data, should be used to build models for optimizing harvests.
-- Large customers should be able to derive insights across multiple farms.
-- Fish Watch should be accessible from various devices, including rugged industrial devices used at sea.
-- Fish farms are often in remote locations with poor cellular signal.
-- Hardware devices for water information capture and fish behavior detection exist, but their data transmission method needs to be defined.
-
-- **Future Considerations**
-  - Livestock Insights Inc. is considering expanding the system's capabilities to cattle and aquarium fish health monitoring.
+|Requirement Type|Description| 
+| --- | --- | 
+| **Technical Requirements** | |
+| TR-01 | System should support multiple fish farms in various locations. | 
+| TR-2 | System should support farms of varying sizes, from single farm customers to large clients with over a hundred farms. | 
+| TR-03 | System should support multiple enclosures for fish per farm, ranging from ten to over a thousand. | 
+| TR-04 | System should support large farms housing over a million fish. | 
+| TR-05 | System should support a variety of different fish species per farm. | 
+| TR-06 | System should integrate with water monitors in each enclosure to capture water quality information (PH, temperature, salinity, oxygen levels, etc.). | 
+| TR-07 | System should integrate with underwater cameras in each enclosure to monitor fish health (size, activity, parasite detection). | 
+| TR-08 | System should support a beta feature for individual fish identification via fish-ual recognition. | 
+| TR-09 | System should provide customizable dashboards for farmers to view collected information. | 
+| TR-10 | System should allow farmers to set alert thresholds for various factors, including PH levels and upcoming adverse weather events. | 
+| TR-11 | System should track information about fish harvested from each farm. | 
+| TR-12 | System should use harvested information and raw data to build models for optimizing harvests. | 
+| TR-13 | System should allow large customers to derive insights across multiple farms. | 
+| TR- 14 | System should define a data transmission method for hardware devices for water information capture and fish behavior detection. | 
+| **Non-Functional Requirements** | | 
+| NFR-01 | System should generate alerts in a timely manner to prevent potential damage from sudden water quality degradation or adverse weather. | 
+| NFR-02 | System should be accessible from various devices, including rugged industrial devices used at sea. | 
+| NFR-03 | System should be designed to work in remote locations with poor cellular signal. | 
+| NFR-04 | System should be scalable to support future expansion to cattle and aquarium fish health monitoring. |
 
 ## 1. The Problem
 
