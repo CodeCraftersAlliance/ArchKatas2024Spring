@@ -663,7 +663,7 @@ These microservices work together to provide a scalable and modular architecture
 
 1. [ADR_GLobal_and_regional_Deployment](./adr/ADR-001-global-and-regional-deployment.md)
 2. [ADR_Distributed_Microservices](./adr/ADR-002-distributed-microservices-architecture.md)
-3. [ADR_GraphDB](./adr/ADR-003_graphdb-for-persisting-digital-twin.md)
+3. [ADR_GraphDB](./adr/ADR-003-graphdb-for-persisting-digital-twin.md)
 4. [ADR_Local_Storage_In_Gateway](./adr/ADR-004-Local_Storage_In_Gateway.md)
 5. [ADR_Availability_Per_Region](./adr/ADR-005-Availability_Per_Region.md)
 6. [ADR_CloudEvents](./adr/ADR-006-CloudEvents.md)
