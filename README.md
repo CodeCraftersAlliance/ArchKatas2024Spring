@@ -11,8 +11,6 @@
 
 ## **Table of Contents**  
 
-## Table of Contents 
-
 - [Welcome to Code Crafters Alliance](#welcome-to-code-crafters-alliance)
   - [1. The Problem](#1-the-problem)
     - [1.1 Functional Requirements](#11-functional-requirements)
