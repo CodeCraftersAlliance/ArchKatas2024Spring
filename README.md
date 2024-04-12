@@ -623,36 +623,37 @@ The Notification Service processes these alert messages, refers to the model ser
 
 #### **Device Driver**
 
-*Purpose*: It has the responsibility to discover and communicate to the different varieties of sensors and cameras. It caches the threshold settings for each of the sensors enrolled and it has the intelligent to detect the sensor malfunctioning and raise it as an alert and write it to the Data Access Layer. It writes the telemetry data to the Configuration Database via Data Access Layer. It does the periodical checks from Data Access Layer for any threshold and Configuration changes.
+*Purpose*: The device driver is responsible for discovering and communicating with various sensors and cameras. It stores threshold settings for each enrolled sensor and intelligently detects sensor malfunctions, raising alerts and writing them to the Data Access Layer. It also writes telemetry data to the Configuration Database through the Data Access Layer and periodically checks for any threshold and configuration changes.
 
 #### **Gateway Persistence Layer**
 
-*Purpose*: This component acts as an abstraction layer for read\write configuration and to write the Telemetry data to the Database. This has the configuration setting to  manage the data retention in the configuration db. This component will be invoked by Data Router for streaming the Telemetry to the IOT edge Runtime and by the web Server for local viewing.  
+*Purpose*: This component serves as an abstraction layer for reading/writing configuration and writing telemetry data to the database. It includes settings to manage data retention in the configuration database. The Data Router invokes this component to stream telemetry to the IoT Edge Runtime, and the web server uses it for local viewing.  
 
 #### **Config and Telemetry Db**
 
-*Purpose*: This database will persist the sensor, threshold and telemetry data. Telemetry data will be retained based on time. Persisting the telemetry data or alarms serves for two purposes:
-
-- If the Gateway loses the connectivity with the Device Interface layer, the time series data can be persisted so that when the connectivity restores, data can be streamed back to the cloud.
-- Since these Gateway will be installed in a remote shore there are more possibilities for network disturbances, during these time, Farmer who is in-charge can connect with the Gateway via Wi-Fi direct and stream the data locally to understand the enclosures health status
+*Purpose*: This database stores sensor, threshold, and telemetry data, retaining telemetry data based on time. The persistence of telemetry data or alarms serves two purposes:
+•	If the Gateway loses connectivity with the Device Interface layer, the time series data is saved so that it can be streamed back to the cloud when connectivity is restored.
+•	Given that these Gateways are installed in remote locations prone to network disturbances, the in-charge farmer can connect to the Gateway via Wi-Fi Direct and locally stream data to assess the health status of the enclosures.
 
 #### **Data Router**
 
-*Purpose*:  It acts as a pass through layer for reading the data from Data layer to IOT Edge Runtime and also to receive the configuration data from IOT Edge Run time to Data Layer.
+*Purpose*:  The Data Router serves as a conduit for transferring data from the Data Layer to the IoT Edge Runtime and for receiving configuration data from the IoT Edge Runtime to the Data Layer.
 
 #### **Web Server**
 
-*Purpose*:  This acts as an interface for reading the data from Data Layer and serve the minimal health and telemetry data to the Farmer who is in charge of the Farm during the time of disconnection.
+*Purpose*:  The Web Server serves as an interface for retrieving data from the Data Layer and provides essential health and telemetry data to the farmer in charge of the farm during periods of disconnection.
 
 #### **IOT Edge Runtime**
 
-*Purpose*:  This manages the connectivity to the cloud system, in cases of disconnection with the cloud, it signals the Data Router to start streaming the telemetry data to local persistence store.  Once connectivity is restored it again signals the Data Router and in turns it start streaming the persisted data to cloud which are buffered in local persistence store.
+*Purpose*:  The IoT Edge Runtime manages the connection to the cloud system. During cloud disconnections, it instructs the Data Router to stream telemetry data to the local persistence store. Upon restoring connectivity, it signals the Data Router to start streaming the locally stored, buffered data back to the cloud.
 
 #### **Wi-Fi Direct**
 
-*Purpose*: Connectivity to the Wi-Fi direct to the local hand held devices are not explicitly elaborated, it is assumed that farmer can connect with the Gateway in the event of Gateway disconnection with the cloud.
+*Purpose*: While not explicitly detailed, it's assumed that in the event of a gateway's disconnection from the cloud, the farmer can connect to the gateway using Wi-Fi Direct.
 
-The following sequence diagram illustrates how a farmer receives a notification when the farm's gateways lose cloud connectivity. It also illustrates how the farmer can use a Wi-Fi-enabled portable rugged device to connect to the gateway via Wi-Fi Direct and monitor the health of the farm.
+
+The subsequent sequence diagram depicts how a farmer is notified when the farm's gateways lose cloud connectivity. It also shows how the farmer can use a Wi-Fi-enabled portable device to connect to the gateway via Wi-Fi Direct and check the farm's health status.
+
 
 ![Gateway Disconnection data flow](./img/Gateway_Disconnection_Data_Flow.jpg)
 
