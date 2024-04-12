@@ -110,9 +110,8 @@ The High level technical and Non functional requirements are as follows:
 | TR-14 | System should define a data transmission method for hardware devices for water information capture and fish behavior detection. | 
 | **Non-Functional Requirements** | | 
 | NFR-01 | System should generate alerts in a timely manner to prevent potential damage from sudden water quality degradation or adverse weather. | 
-| NFR-02 | System should be accessible from various devices, including rugged industrial devices used at sea. | 
-| NFR-03 | System should be designed to work in remote locations with poor cellular signal. | 
-| NFR-04 | System should be scalable to support future expansion to cattle and aquarium fish health monitoring. |
+| NFR-02 | System should be designed to work in remote locations with poor cellular signal. | 
+| NFR-03 | System should be scalable to support future expansion to cattle and aquarium fish health monitoring. |
 
 ## 1. The Problem
 
@@ -624,7 +623,7 @@ The Notification Service processes these alert messages, refers to the model ser
 
 #### **Device Driver**
 
-*Purpose*: It has the responsibility to discover and communicate to the different varieties of sensors and cameras. It caches the threshold settings for each of the sensors enrolled and it has the intelligent to detect the sensor malfunctioning and raise it as an alert and write it to the Data Access Layer. If any new category of sensor need to be brought to the system, this component need to be enhanced to accommodate those new one. It writes the telemetry data to the Configuration Database via Data Access Layer. It does the periodical checks from Data Access Layer for any threshold and Configuration changes.
+*Purpose*: It has the responsibility to discover and communicate to the different varieties of sensors and cameras. It caches the threshold settings for each of the sensors enrolled and it has the intelligent to detect the sensor malfunctioning and raise it as an alert and write it to the Data Access Layer. It writes the telemetry data to the Configuration Database via Data Access Layer. It does the periodical checks from Data Access Layer for any threshold and Configuration changes.
 
 #### **Gateway Persistence Layer**
 
@@ -664,7 +663,7 @@ These microservices work together to provide a scalable and modular architecture
 ## 5. Requirements to System components mapping
 
 
-| Technical Requirement | System Component | Workflow Description | 
+| Requirements | System Component | Workflow Description | 
 |------------------------|------------------|----------------------| 
 | TR-01, TR-02 | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin| 
 | TR-03, TR-04 | API Gateway, Onboarding API, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Create multiple enclosures and gateways in the digital twin.|
@@ -677,7 +676,10 @@ These microservices work together to provide a scalable and modular architecture
 | TR-11      | API Gateway, Configuration API, Model Service| Yield is a property assigned to each enclosure and farm entity within the digital twin (graph database). Farmers can input this data via the web application. |
 | TR-12      | Model Service, Advanced Analytics Service, Insights API | Harvest (Yield) data from the digital twin is transferred to the data lake through change feed or change data capture events. The advanced analytics service uses this data, along with sensor readings (temperature, salinity, pH, dissolved oxygen, ammonia content, external weather conditions), to train a model via supervised learning. Once trained, the model is deployed and made accessible for inference through the insights API.|
 | TR-13      | API Gateway, Insights API, Model Service, (Regional) Telemetry Ingestion services, Advanced analytics service, (Regional) Weather data Ingestion services | Authenticate and authorize the user. Validate the input, refer the digital twin to obtain metadata about the locations of all farms accessible to the current user. Use this information to determine the appropriate regional telemetry ingestion service for fetching telemetry data and alert information. Refer to the advanced analytics service for ML insights such as yield and etc, and the regional weather data ingestion service for weather information and predictions.|
-| TR-14       | Sensors, Gateway, IoT hub, (Regional) Telemetry Ingestion services| Farm-installed gateways continuously poll sensor data from each enclosure. This data is sent as telemetry to the IoT hub at regular intervals (e.g., every 5 minutes). The telemetry ingestion service then processes this data. |
+| TR-14 | Sensors, Gateway, IoT hub, (Regional) Telemetry Ingestion services| Farm-installed gateways continuously poll sensor data from each enclosure. This data is sent as telemetry to the IoT hub at regular intervals (e.g., every 5 minutes). The telemetry ingestion service then processes this data. |
+| NFR 01 | Gateway, IoT Hub, Alert processing service, Notification service | Farm-installed gateways send alerts to the IoT hub ([adr for choosing Iot hub](./adr/ADR-008-IOTHub.md)), capable of efficiently handling millions of such messages. These alerts are streamed to a message broker, enriched with digital twin context, and published to a notification queue. The notification service reads these messages and sends alerts to farm owners according to their preferences. Both the alert processing and notification services are stateless, dynamically scaling based on the message backlog in the brokers.|
+| NFR-02 | Gateway, IoT Hub | The gateway uses an offline data store to save telemetry and alarms when cloud connectivity is lost. Once network connectivity is restored, it forwards all offline events to the cloud. |
+| NFR-03 | Gateway, IoT Hub, (Regional) Telemetry Service, Alert processing service, Notification Service, Model (Digital twin) service | The cloud event model, used for streaming telemetry and alarms, along with the digital twin model, are universally applicable and can be deployed for any type of livestock management.|
 
 ## 6. Appendix
 
