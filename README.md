@@ -2,9 +2,9 @@
 
 ### Team Members :
 
-- Nithin Yadalla Ramgopal 
-- Sreedhar Thirunellai Raman
-- Poothabalan Somasundaram
+- [Nithin Yadalla Ramgopal](https://www.linkedin.com/in/nithin-yadalla-ramgopal/) 
+- [Sreedhar Thirunellai Raman](https://www.linkedin.com/in/sreedhar-raman-13612918/)
+- [Poothabalan Somasundaram](https://www.linkedin.com/in/poothabalan-somasundaram-37355a45/)
 - Rahul Singh
 - Suresh Muruganandam
 
