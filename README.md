@@ -594,7 +594,7 @@ Additionally, this service publishes change feed or change data capture events t
 - Alert processing services, deployed in various regions, publish alerts to this same message broker. Similarly, weather data ingestion services in different regions publish alerts related to inclement weather conditions to the same broker.
 - The Global Advanced Analytics service also publishes any alerts based on detected anomalies to this message broker.
 
-The Notification Service processes these alert messages, refers to the model service to enrich the context, and sends notification alerts based on user-configured preferences. This ensures that all relevant alerts are efficiently processed and delivered according to user preferences, providing a comprehensive and personalized alert system.
+The Notification Service processes these alert messages, enriches the context by referring to the model service, and sends notifications based on user-configured preferences (language, unit system, notification preferences such as sending critical alerts as SMS and non-critical alerts as email notifications). This ensures all relevant alerts are processed and delivered efficiently according to user preferences, offering a comprehensive and personalized alert system.
 
 ##### Advanced Analytics Service
 
@@ -623,11 +623,13 @@ Models can be evaluated using metrics like Mean Absolute Error (MAE), Mean Squar
 
 ##### Telemetry Ingestion Service
 
-*Purpose*: This service processes the stream of telemetry data (coming from IoT hub) related to points and their values, and persists them in the time series database.
+*Purpose*: This service processes the telemetry data stream (from the IoT hub) related to points and their values, and stores them in the time series database. Before saving, this data is enriched with digital twin data. Enrichment may involve unit conversion of the reported sensed values to ensure all temperature sensor values in the time series databases are in the same unit, regardless of the unit in which they were sensed and reported. Other types of enrichment could include adjusting the sensed values according to sensor calibration offsets.
 
 ##### Alert Processing Service
 
 *Purpose*: This service monitors alert messages sent by the gateway as part of the telemetry. It enriches these alerts by referring to its own replica of the digital twin model database, stores them in the time series database, and then publishes them to a message broker (like Azure Event Hub). This allows the alerts to be processed by the global notification service.
+
+Alerts sent by the gateway as cloud event messages require enrichment with digital twin data. For instance, details about the originating farm, location, and company name are necessary to include in the notification message sent to users.
 
 ##### Weather Data Ingestion Service
 
