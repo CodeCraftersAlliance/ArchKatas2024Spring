@@ -175,6 +175,8 @@ The system should be scalable to accommodate increasing number of Enclosure and 
 ## 1.4 Constraints and Assumptions
 
 - We have developed an architecture that is fault-tolerant and ensures high availability.
+- All communication between microservices is conducted via **mTLS**. A **service mesh**-like component handles the issuance and management of certificates.
+- It's assumed that a container orchestration platform, such as Kubernetes, is used to manage the microservices. Therefore, topics like load balancing, service discovery, and auto scaling are not explicitly discussed.
 - The databases in our system are considered to be a Platform as a Service (**PaaS**) with built-in redundancy mechanisms. These mechanisms provide failover capabilities to maintain service availability in the event of component failures.
 - We assume that all databases will be encrypted at rest, and their data will be accessed over encrypted channels. This is to ensure the security and privacy of the data.
 - We have implemented business continuity strategies that use response and recovery methods to ensure the system remains operational.
