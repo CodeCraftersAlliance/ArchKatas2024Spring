@@ -273,7 +273,7 @@ Admin Screens include
 #### *FishWatch Monitor Screen*
 
 We started by imagining the consolidated monitoring screen that is available at Farmers Device ( Rugged/ Mobile/PC ).
-An **Enclosure** and a **Livestock** are two distinct data types. The **Enclosure**  represents a physical apparatus , that the sensors are fixed to. It also houses a **Hub**, which collects data from the sensors.
+An **Enclosure** and a **Livestock** are two distinct data types. The **Enclosure**  represents a physical partition that hosts the farm animals (fish in this case) , that the sensors are fixed to. It also houses a **Gateway**, which collects data from the sensors.
 
 The landing screen should provide the farmer with a snapshot of the current activity in the enclosure. The farmer should also be able to view different enclosures through a carousel view.
 
