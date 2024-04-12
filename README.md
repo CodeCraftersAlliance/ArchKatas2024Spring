@@ -83,7 +83,8 @@
       - [IOT Edge Runtime](#iot-edge-runtime)
       - [Wi-Fi Direct](#wi-fi-direct)
     - [Conclusion](#conclusion)
-  - [5. Appendix](#5-appendix)
+  - [5. Requirements to System Components mapping](#5-requirements-to-system-components-mapping)
+  - [6. Appendix](#6-appendix)
     - [Architecture Decision Records](#architecture-decision-records)
 
 # Welcome to Code Crafters Alliance
@@ -108,7 +109,7 @@ The High level technical and Non functional requirements are as follows:
 | TR-11 | System should track information about fish harvested from each farm. | 
 | TR-12 | System should use harvested information and raw data to build models for optimizing harvests. | 
 | TR-13 | System should allow large customers to derive insights across multiple farms. | 
-| TR- 14 | System should define a data transmission method for hardware devices for water information capture and fish behavior detection. | 
+| TR-14 | System should define a data transmission method for hardware devices for water information capture and fish behavior detection. | 
 | **Non-Functional Requirements** | | 
 | NFR-01 | System should generate alerts in a timely manner to prevent potential damage from sudden water quality degradation or adverse weather. | 
 | NFR-02 | System should be accessible from various devices, including rugged industrial devices used at sea. | 
@@ -489,14 +490,14 @@ The main data model of Fishwatch is split into 2 types and we have 3 varieties o
 We chose to follow Cloudevents model for storing Telemetry events in the system. the Data Processor module converts and stores the data in the below Model. The Schema is loosely defined as below.
 The data is stored in the telemetry database which is a timeseries documennt DB hosted as a PaaS service in the Cloud.
 
-|CloudEvents| Type| Exemplary JSON Value|
+|CloudEvents   | Type   | Exemplary JSON Value   |
 |-----------|-------|-------------------------|
-|type |String| "com.codecraftersalliance.evt.v1"|
+|type |String| alert or sensor value or camera snapshot|
 |specVersion| String| "1.0"
 |source|URI-reference| "/skaneFarm/gateway01/temp01"|
 |subject|String| "temperature value"|
 |id |String |{farmId.gatewayId.sensorId} - ed102250-9e1d-4b47-a211-6c38bf23f3f8.a3cfa3b4-1a31-4eab-9abb-e9f11ad414f8.100b8ed7-4741-452a-9bd9-26ec59dbd4ec|
-|value|String|"25"|
+|value|String|"25" or blob data|
 |reportedAt|Timestamp| "2024-04-05T17:31:00Z"|
 |time |String| "application/json"|
 |data |String| {"key1":"value1", "key2":"value2"}|
@@ -658,7 +659,25 @@ The Notification Service processes these alert messages, refers to the model ser
 
 These microservices work together to provide a scalable and modular architecture, allowing us to efficiently handle different functionalities within our distributed system.
 
-## 5. Appendix
+## 5. Requirements to System components mapping
+
+
+| Technical Requirement | System Component | Workflow Description | 
+|------------------------|------------------|----------------------| 
+| TR-01, TR-02 | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin| 
+| TR-03, TR-04 | API Gateway, Onboarding API, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Create multiple enclosures and gateways in the digital twin.|
+| TR-05        | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Configure the farm animals using the details provided in the digital twin.|
+| TR-06      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add the necessary sensors and do the basic configuration like their sensing unit, operating temperature range in the digital twin. |
+| TR-07      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add and configure cameras using the details provided in the digital twin.|
+| TR-08      | Camera, Gateway, IoT hub, (Regional) Telemetry Ingestion Service, Data Lake, Advanced Analytics Service | When the snapshot capture feature is activated on the farm cameras, they periodically send fish images to the gateway. The frequency of these snapshots is adjustable. Upon receipt, the gateway forwards these images as telemetry data to the cloud. The telemetry ingestion service processes this data, storing the images in a global blob storage (Data Lake), and saving a reference in the time series database. The advanced analytics service can then classify the fish type based on identified characteristics.|
+| TR-09      | API Gateway, Insights API, Model Service, (Regional) Telemetry Ingestion services, Advanced analytics service, (Regional) Weather data Ingestion services | Authenticate and authorize the user. Validate the input, refer the digital twin to obtain metadata about the locations of all farms accessible to the current user. Use this information to determine the appropriate regional telemetry ingestion service for fetching telemetry data and alert information. Refer to the advanced analytics service for ML insights such as yield and etc, and the regional weather data ingestion service for weather information and predictions.|
+| TR-10      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Configure high and low limit thresholds for alerts, and dead band range for various sensors in the digital twin.|
+| TR-11      | API Gateway, Configuration API, Model Service| Yield is a property assigned to each enclosure and farm entity within the digital twin (graph database). Farmers can input this data via the web application. |
+| TR-12      | Model Service, Advanced Analytics Service, Insights API | Harvest (Yield) data from the digital twin is transferred to the data lake through change feed or change data capture events. The advanced analytics service uses this data, along with sensor readings (temperature, salinity, pH, dissolved oxygen, ammonia content, external weather conditions), to train a model via supervised learning. Once trained, the model is deployed and made accessible for inference through the insights API.|
+| TR-13      | API Gateway, Insights API, Model Service, (Regional) Telemetry Ingestion services, Advanced analytics service, (Regional) Weather data Ingestion services | Authenticate and authorize the user. Validate the input, refer the digital twin to obtain metadata about the locations of all farms accessible to the current user. Use this information to determine the appropriate regional telemetry ingestion service for fetching telemetry data and alert information. Refer to the advanced analytics service for ML insights such as yield and etc, and the regional weather data ingestion service for weather information and predictions.|
+| TR-14       | Sensors, Gateway, IoT hub, (Regional) Telemetry Ingestion services| Farm-installed gateways continuously poll sensor data from each enclosure. This data is sent as telemetry to the IoT hub at regular intervals (e.g., every 5 minutes). The telemetry ingestion service then processes this data. |
+
+## 6. Appendix
 
 ### Architecture Decision Records
 
