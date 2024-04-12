@@ -606,6 +606,15 @@ The Notification Service processes these alert messages, refers to the model ser
 
 ![Analytics Service](./img/Analytics_ML_Pipeline.jpg)
 
+*Data Analysis and Pre processing*: To create a predictive fish yield model based on various parameters, the existing data needs to be thoroughly analyzed and preprocessed. The insights gained from this initial data analysis can guide the selection, testing, and tuning of suitable models. Once developed, the model can be integrated into FishWatch for real-time yield/harvest predictions.
+
+*Feature Selection*: Understanding correlations leads to the next step: feature selection. This is crucial to eliminate noise, prevent overfitting, and enhance accuracy.
+
+*Model Selection*: The selection of a model is guided by the dataset's features and the problem at hand. After consulting with Machine Learning experts, we've determined that Random Forest is a suitable choice for our needs.
+
+*Evaluation and Tuning*: Models can be evaluated using metrics like Mean Absolute Error (MAE), Mean Squared Error (MSE), or Root Mean Squared Error (RMSE). By comparing different models' performance using these metrics, the most suitable model for the task can be identified. This process is performed repeatedly alongside hyperparameter tuning to achieve the desired results. The model is tested and validated until accurate results are achieved.
+
+
 #### Data Ingestion Layer
 
 ##### Telemetry Ingestion Service
