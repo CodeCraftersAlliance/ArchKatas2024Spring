@@ -332,7 +332,9 @@ The requirement of a Gateway Hub, came with need that cellular signals and conne
 
 ### *2.3 Architecture Characteristics*
 
-#### *Availability*
+We have selected the top 5 characteristics for our system based on the Functional and Non functional requirements as below.
+
+#### *1. Availability*
 
 _Reason_:  Every region (EU, Americas,APAC etc) has its independent deployment of Telemetry DB, which are then aggregated globally for a multi national corporate. The System supports a small farm to real cross regional enterprise. Fishwatch primary purpose is to monitor enclosure health in real time, any system downtime could delay the detection of critical issues, leading to potential harm or even loss of business for its customers. High availability is also needed to ensure that alerts for abnormal conditions are delivered promptly, enabling customers to respond quickly in emergencies.
 
@@ -341,35 +343,7 @@ _Impact on Architecture:_
 - We have added provision for load balancing in the data ingestion module.
 - We have adopted Extract-Load-Transform (ELT) architecture for running  ML Pipeline and analytics.
 
-#### *Data Integrity*
-
-_Reason_: Reliable Farm health monitoring systems rely on accurate and reliable enclosure data. Therefore, FishWatch needs high data integrity, meaning the data across the system must be free from incorrect modification and loss.
-
-_Impact on Architecture:_
-    - Services that are responsible for maintaining and managing the System of Record propagate changes made to the databases as change data capture events or by publishing the change feeds to a message broker. This allows services within different bounded contexts to build their derived databases according to their specific needs.
-
-#### *Data Consistency*
-
-_Reason:_ The Fishwatch system must ensure that the sensor readings, which are ingested, stored, and displayed, accurately reflect the current state of the enclosure. Given that the data is event-driven and lacks transactions, we have opted for eventual consistency for telemetry data over an ACID-compliant store. Additionally, we chose a graph database to persist the digital twin information due to the complex relationships between entities and the need for high performance.
-
-_Impact on Architecture:_
-  - Telemetry data stored in regionally deployed instances is asynchronously pulled at regular intervals to populate the global data lake store. These delays are acceptable as the information in the data lake store is used for training the model and deriving ML insights by inferring the trained models. In this context, eventual consistency is acceptable.
-  - The Model service will ensure that any changes made to the model/digital twin are published. This allows other microservices interested in this data to create their own copy of the model/digital twin data. These changes occur infrequently, so relying on "Eventual Consistency" is a suitable approach in this context.
-
- 
-#### *Fault Tolerance*
-
-_Reason:_ The Fishwatch system must maintain service even in the face of failures. The primary failure scenarios include loss of connectivity between the enclosure and the cloud, sensor malfunctions, or software component failures. Despite these potential issues, it's essential for the Fishwatch system to continue monitoring, recording, analyzing, and alerting based on the available data.
-
-_Impact on Architecture:_
-
-- We store and process each telemetry timeseries independently from the others.
-- Our design includes the ability to detect sensor failures and alert a data/system administrator about these failures.
-- We have also incorporated the ability to seamlessly ingest data after a failed component recovers, leveraging the distributed message broker architecture.
-
-To tolerate failures, the system must consider redundancy and replication at various levels. These considerations are assumed to be implicit and have minimal impact on the software architecture. We have intentionally omitted the role of an orchestrator like Kubernetes in ensuring that all services maintain a steady state.
-
-#### Performance
+#### *2. Performance*
 
 _Reason:_ The system should be able to process requests on demand and be very responsive. The System also should be able to provide a consolidated view in the Monitor screen with avg response time <  5 secs
 
@@ -379,13 +353,40 @@ _Impact on Architecture:_
 - We have adopted interactions to be asynchronous where a response is not needed.
 - We have designed the serverless services to handle concurrent requests and scale horizontally.
 
+#### *3. Data Integrity & Consistency*
+
+_Reason_: Reliable Farm health monitoring systems rely on accurate and reliable enclosure data. Therefore:  
+
+- FishWatch needs high data integrity, meaning the data across the system must be free from incorrect modification and loss.
+- The Fishwatch system must ensure that the sensor readings, which are ingested, stored, and displayed, accurately reflect the current state of the enclosure. Given that the data is event-driven and lacks transactions, we have opted for eventual consistency for telemetry data over an ACID-compliant store. Additionally, we chose a graph database to persist the digital twin information due to the complex relationships between entities and the need for high performance.
+
+_Impact on Architecture:_
+    - Services that are responsible for maintaining and managing the System of Record propagate changes made to the databases as change data capture events or by publishing the change feeds to a message broker. This allows services within different bounded contexts to build their derived databases according to their specific needs.
+    - Telemetry data stored in regionally deployed instances is asynchronously pulled at regular intervals to populate the global data lake store. These delays are acceptable as the information in the data lake store is used for training the model and deriving ML insights by inferring the trained models. In this context, eventual consistency is acceptable.
+    - The Model service will ensure that any changes made to the model/digital twin are published. This allows other microservices interested in this data to create their own copy of the model/digital twin data. These changes occur infrequently, so relying on "Eventual Consistency" is a suitable approach in this context.
+
+#### *4. Fault Tolerance*
+
+_Reason:_ The Fishwatch system must maintain service even in the face of failures. The primary failure scenarios include loss of connectivity between the enclosure and the cloud, sensor malfunctions, or software component failures. Despite these potential issues, it's essential for the Fishwatch system to continue monitoring, recording, analyzing, and alerting based on the available data.
+
+#### *5. Extensibility*
+
+_Reason_: LiveStock Insights, at a later point would like to extend this system to other livestock management like Cattle, Poultry etc.
+
+_Impact on Architecture:_
+
+- The telemetry and alert data to be made generic enough for later extensions.
+- The Digital Twin model , extensible enough to add more sensor types
+- Farm Animal model also extensible enough to hold the attributes of the any type of Farm animal.
+- Ability to integrate with publicly available services ( Like Weather API , related News Feeds, public emergency notification systems )
+
 ### 2.4 Architecture Style
 
 We recommend a combination of microservice and event-driven architecture styles.
 
 - Microservice architecture will allow keeping services of the system discrete, enabling fault tolerance and high availability.
 - Event-driven architecture will enable real-time capabilities. Various components can subscribe to events and receive them as asynchronous messages. eg: a Live Alert can be immediately served to the User interface and parallelly this message can be queued and processed to the database, there by making it near real-time and decoupling them.
-- As in microservices, we have minimised data sharing among microservices, The Event driven module ( Alerts and Notifications) uses Telemetry Databases, while Manage Enclosures and Rules uses a GraphDB as it allows us to define complex relationships . The shared database style is suitable because Fishwatch MonitorMe needs to prioritize data integrity and maintainability over data isolation .
+- As in microservices, we have minimized data sharing among microservices, The Event driven module ( Alerts and Notifications) uses Telemetry Databases, while Manage Enclosures and Rules uses a GraphDB as it allows us to define complex relationships . The shared database style is suitable because Fishwatch MonitorMe needs to prioritize data integrity and maintainability over data isolation .
 - We have followed, Global-Regional Hybrid architecture for deploying our services. The deployment looks at a high level as shown below: 
 
 Architecture decision records for Global Regional Deployment model can be found at [ADR-001-global-and-regional-deployment.md](./adr/ADR-001-global-and-regional-deployment.md), Distributed Microservice architecture [ADR-002-distributed-microservices-architecture.md](./adr/ADR-002-distributed-microservices-architecture.md), Availability per region [ADR_Availability_Per_Region](./adr/ADR-005-Availability_Per_Region.md)
@@ -666,7 +667,7 @@ These microservices work together to provide a scalable and modular architecture
 
 | Requirements | System Component | Workflow Description | 
 |------------------------|------------------|----------------------| 
-| TR-01, TR-02 | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin| 
+| TR-01 , TR-02 | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin| 
 | TR-03, TR-04 | API Gateway, Onboarding API, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Create multiple enclosures and gateways in the digital twin.|
 | TR-05        | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Configure the farm animals using the details provided in the digital twin.|
 | TR-06      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add the necessary sensors and do the basic configuration like their sensing unit, operating temperature range in the digital twin. |
