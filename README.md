@@ -655,6 +655,10 @@ The Notification Service processes these alert messages, refers to the model ser
 
 *Purpose*: Connectivity to the Wi-Fi direct to the local hand held devices are not explicitly elaborated, it is assumed that farmer can connect with the Gateway in the event of Gateway disconnection with the cloud.
 
+The following sequence diagram illustrates how a farmer receives a notification when the farm's gateways lose cloud connectivity. It also illustrates how the farmer can use a Wi-Fi-enabled portable rugged device to connect to the gateway via Wi-Fi Direct and monitor the health of the farm.
+
+![Gateway Disconnection data flow](./img/Gateway_Disconnection_Data_Flow.jpg)
+
 ### Conclusion
 
 These microservices work together to provide a scalable and modular architecture, allowing us to efficiently handle different functionalities within our distributed system.
