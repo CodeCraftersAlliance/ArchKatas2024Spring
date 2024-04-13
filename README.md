@@ -601,8 +601,8 @@ The Notification Service processes these alert messages, enriches the context by
 *Purpose*:
 
 - This service includes a data lake that aggregates all telemetry data from regional deployments, as well as a machine learning (ML) training component. It also maintains a persistent database to store insights for future use.
-- The service features an API that utilizes the trained model to predict the yield based on a given set of parameters.
-- Furthermore, if the service identifies any anomalies, it promptly sends alerts to the notification service. This ensures immediate awareness and facilitates timely response to potential issues.
+- The service features an API that utilizes the trained model to **predict the yield** based on a given set of parameters.
+- Furthermore, if the service **identifies** any **anomalies**, it promptly sends alerts to the notification service. This ensures immediate awareness and facilitates timely response to potential issues.
 
 ![Analytics Service](./img/Analytics_ML_Pipeline.jpg)
 
