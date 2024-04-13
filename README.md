@@ -2,9 +2,15 @@
 
 ### Team Members :
 
+<<<<<<< Updated upstream
 - [Nithin Yadalla Ramgopal](https://www.linkedin.com/in/nithin-yadalla-ramgopal/) 
 - [Sreedhar Thirunellai Raman](https://www.linkedin.com/in/sreedhar-raman-13612918/)
 - [Poothabalan Somasundaram](https://www.linkedin.com/in/poothabalan-somasundaram-37355a45/)
+=======
+- Nithin Yadalla Ramgopal
+- Sreedhar Thirunellai Raman
+- Poothabalan Somasundaram
+>>>>>>> Stashed changes
 - Rahul Singh
 - Suresh Muruganandam
 
@@ -91,26 +97,31 @@ We were presented with a need for developing a Fish Farm Management System FishW
 
 The High level technical and Non functional requirements are as follows:
 
-|Requirement Type|Description| 
-| --- | --- | 
-| **Technical Requirements** | |
-| TR-01 | System should support multiple fish farms in various locations. | 
-| TR-02 | System should support farms of varying sizes, from single farm customers to large clients with over a hundred farms. | 
-| TR-03 | System should support multiple enclosures for fish per farm, ranging from ten to over a thousand. | 
-| TR-04 | System should support large farms housing over a million fish. | 
-| TR-05 | System should support a variety of different fish species per farm. | 
-| TR-06 | System should integrate with water monitors in each enclosure to capture water quality information (PH, temperature, salinity, oxygen levels, etc.). | 
-| TR-07 | System should integrate with underwater cameras in each enclosure to monitor fish health (size, activity, parasite detection). | 
-| TR-08 | System should support a beta feature for individual fish identification via fish-ual recognition. | 
-| TR-09 | System should provide customizable dashboards for farmers to view collected information. | 
-| TR-10 | System should allow farmers to set alert thresholds for various factors, including PH levels and upcoming adverse weather events. | 
-| TR-11 | System should track information about fish harvested from each farm. | 
-| TR-12 | System should use harvested information and raw data to build models for optimizing harvests. | 
-| TR-13 | System should allow large customers to derive insights across multiple farms. | 
-| TR-14 | System should define a data transmission method for hardware devices for water information capture and fish behavior detection. | 
-| **Non-Functional Requirements** | | 
-| NFR-01 | System should generate alerts in a timely manner to prevent potential damage from sudden water quality degradation or adverse weather. | 
-| NFR-02 | System should be designed to work in remote locations with poor cellular signal. | 
+#### Table 1 :  **Technical Requirements**
+
+|Requirement Type|Description|
+| --- | --- |
+| TR-01 | System should support multiple fish farms in various locations. |
+| TR-02 | System should support farms of varying sizes, from single farm customers to large clients with over a hundred farms. |
+| TR-03 | System should support multiple enclosures for fish per farm, ranging from ten to over a thousand. |
+| TR-04 | System should support large farms housing over a million fish. |
+| TR-05 | System should support a variety of different fish species per farm. |
+| TR-06 | System should integrate with water monitors in each enclosure to capture water quality information (PH, temperature, salinity, oxygen levels, etc.). |
+| TR-07 | System should integrate with underwater cameras in each enclosure to monitor fish health (size, activity, parasite detection). |
+| TR-08 | System should support a beta feature for individual fish identification via fish-ual recognition. |
+| TR-09 | System should provide customizable dashboards for farmers to view collected information. |
+| TR-10 | System should allow farmers to set alert thresholds for various factors, including PH levels and upcoming adverse weather events. |
+| TR-11 | System should track information about fish harvested from each farm. |
+| TR-12 | System should use harvested information and raw data to build models for optimizing harvests. |
+| TR-13 | System should allow large customers to derive insights across multiple farms. |
+| TR-14 | System should define a data transmission method for hardware devices for water information capture and fish behavior detection. |
+
+#### Table 2 : **Non-Functional Requirements**
+
+|Requirement Type|Description|
+|----|---|
+| NFR-01 | System should generate alerts in a timely manner to prevent potential damage from sudden water quality degradation or adverse weather. |
+| NFR-02 | System should be designed to work in remote locations with poor cellular signal. |
 | NFR-03 | System should be scalable to support future expansion to cattle and aquarium fish health monitoring. |
 
 ## 1. The Problem
@@ -120,6 +131,7 @@ The High level technical and Non functional requirements are as follows:
 From the problem statement, we extracted the following core requirements to guide our proposed architecture for the FishWatch system.
 
 #### **Context Diagram**
+
 ![ContextDiagram](./img/Context_Diagram.jpg)
 
 We visualised the Context and arrived at high level the below subsystems
@@ -223,7 +235,7 @@ Charles is typically the owner of the farm and often oversees multiple locations
 
 #### Natasha Romanoff, the Farm Administrator
 
-In a typical farm setting, the Farm Administrator is often also the owner of the farm. 
+In a typical farm setting, the Farm Administrator is often also the owner of the farm.
 - However, in the case of larger farms spread across different geographical locations, the Farm Administrator is usually the person in charge of the farm.
 - The Farm Administrator is responsible for creating farm users in the system and assigning enclosures to farmers, such as John Doe.
 - The Farm Administrator, who could be someone like Natasha, is also responsible for monitoring the health of the farm, reviewing trends, and identifying potential issues on the farm.
@@ -389,7 +401,7 @@ We recommend a combination of microservice and event-driven architecture styles.
 - Microservice architecture will allow keeping services of the system discrete, enabling fault tolerance and high availability.
 - Event-driven architecture will enable real-time capabilities. Various components can subscribe to events and receive them as asynchronous messages. eg: a Live Alert can be immediately served to the User interface and parallelly this message can be queued and processed to the database, there by making it near real-time and decoupling them.
 - As in microservices, we have minimized data sharing among microservices, The Event driven module ( Alerts and Notifications) uses Telemetry Databases, while Manage Enclosures and Rules uses a GraphDB as it allows us to define complex relationships . The shared database style is suitable because Fishwatch MonitorMe needs to prioritize data integrity and maintainability over data isolation .
-- We have followed, Global-Regional Hybrid architecture for deploying our services. The deployment looks at a high level as shown below: 
+- We have followed, Global-Regional Hybrid architecture for deploying our services. The deployment looks at a high level as shown below:
 
 Architecture decision records for Global Regional Deployment model can be found at [ADR-001-global-and-regional-deployment.md](./adr/ADR-001-global-and-regional-deployment.md), Distributed Microservice architecture [ADR-002-distributed-microservices-architecture.md](./adr/ADR-002-distributed-microservices-architecture.md), Availability per region [ADR_Availability_Per_Region](./adr/ADR-005-Availability_Per_Region.md)
 
@@ -511,14 +523,14 @@ The Cloud Events model is explained in detail in the document link [CloudEvents 
 
 ### **4.2 Microservice Independence**
 
-Each Important microservice shall maintain a model copy of relevant information to maintain their independence. This is achieved through: 
+Each Important microservice shall maintain a model copy of relevant information to maintain their independence. This is achieved through:
 
-- Model Service emits Change Data Capture (CDC) events to a message broker, which Notification service and Alert processing services subscribes to. 
+- Model Service emits Change Data Capture (CDC) events to a message broker, which Notification service and Alert processing services subscribes to.
 - Once CDC events are received by these 2 services, they transform them as needed before persisting them. This design ensures loose coupling and independent scalability of both services.
 
 This ensures, that there is a single Source of truth as Model DB, but relevant services shall have its own local copy as per their needs.
 
-The detailed flow for creating local copies that can be independently scaled along with the owner service is shown below: 
+The detailed flow for creating local copies that can be independently scaled along with the owner service is shown below:
 
 ![DistributedModel](./img/Microservice_independence.jpg)
 
@@ -682,10 +694,10 @@ These microservices work together to provide a scalable and modular architecture
 ## 5. Requirements to System components mapping
 
 
-| Requirements | System Component | Workflow Description | 
-|------------------------|------------------|----------------------| 
-| TR-01 , TR-02 | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin| 
-| TR-03, TR-04 | API Gateway, Onboarding API, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Create multiple enclosures and gateways in the digital twin.|
+| Requirements | System Component | Workflow Description |
+|------------------------|------------------|----------------------|
+| [TR-01](#table-1--technical-requirements) , [TR-02](#table-1--technical-requirements) | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin|
+| [TR-03](#table-1--technical-requirements) , [TR-04]](#table-1--technical-requirements)  | API Gateway, Onboarding API, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Create multiple enclosures and gateways in the digital twin.|
 | TR-05        | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Configure the farm animals using the details provided in the digital twin.|
 | TR-06      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add the necessary sensors and do the basic configuration like their sensing unit, operating temperature range in the digital twin. |
 | TR-07      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add and configure cameras using the details provided in the digital twin.|
