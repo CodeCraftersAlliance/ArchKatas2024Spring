@@ -369,9 +369,10 @@ _Reason_: Reliable Farm health monitoring systems rely on accurate and reliable 
 - The Fishwatch system must ensure that the sensor readings, which are ingested, stored, and displayed, accurately reflect the current state of the enclosure. Given that the data is event-driven and lacks transactions, we have opted for eventual consistency for telemetry data over an ACID-compliant store. Additionally, we chose a graph database to persist the digital twin information due to the complex relationships between entities and the need for high performance.
 
 _Impact on Architecture:_
-    - Services that are responsible for maintaining and managing the System of Record propagate changes made to the databases as change data capture events or by publishing the change feeds to a message broker. This allows services within different bounded contexts to build their derived databases according to their specific needs.
-    - Telemetry data stored in regionally deployed instances is asynchronously pulled at regular intervals to populate the global data lake store. These delays are acceptable as the information in the data lake store is used for training the model and deriving ML insights by inferring the trained models. In this context, eventual consistency is acceptable.
-    - The Model service will ensure that any changes made to the model/digital twin are published. This allows other microservices interested in this data to create their own copy of the model/digital twin data. These changes occur infrequently, so relying on "Eventual Consistency" is a suitable approach in this context.
+
+- Services that are responsible for maintaining and managing the System of Record propagate changes made to the databases as change data capture events or by publishing the change feeds to a message broker. This allows services within different bounded contexts to build their derived databases according to their specific needs.
+- Telemetry data stored in regionally deployed instances is asynchronously pulled at regular intervals to populate the global data lake store. These delays are acceptable as the information in the data lake store is used for training the model and deriving ML insights by inferring the trained models. In this context, eventual consistency is acceptable.
+- The Model service will ensure that any changes made to the model/digital twin are published. This allows other microservices interested in this data to create their own copy of the model/digital twin data. These changes occur infrequently, so relying on "Eventual Consistency" is a suitable approach in this context.
 
 #### *4. Fault Tolerance*
 
@@ -690,7 +691,7 @@ These microservices work together to provide a scalable and modular architecture
 
 | Requirements | System Component | Workflow Description |
 |------------------------|------------------|----------------------|
-| [TR-01](#table-1--technical-requirements) , [TR-02](#table-1--technical-requirements) | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin|
+| [TR-01](#table-1--technical-requirements), [TR-02](#table-1--technical-requirements) | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin|
 | [TR-03](#table-1--technical-requirements) , [TR-04](#table-1--technical-requirements)  | API Gateway, Onboarding API, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Create multiple enclosures and gateways in the digital twin.|
 | [TR-05](#table-1--technical-requirements)      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Configure the farm animals using the details provided in the digital twin.|
 | [TR-06](#table-1--technical-requirements)      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add the necessary sensors and do the basic configuration like their sensing unit, operating temperature range in the digital twin. |
