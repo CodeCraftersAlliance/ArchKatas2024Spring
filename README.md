@@ -4,9 +4,9 @@
 
 - [Nithin Yadalla Ramgopal](https://www.linkedin.com/in/nithin-yadalla-ramgopal/) 
 - [Sreedhar Thirunellai Raman](https://www.linkedin.com/in/sreedhar-raman-13612918/)
-- [Poothabalan Somasundaram](https://www.linkedin.com/in/poothabalan-somasundaram-37355a45/)
-- Rahul Singh
-- Suresh Muruganandam
+- [Poothabalan Somasundaram](https://www.linkedin.com/in/poothabalan-somasundaram/)
+- [Rahul Singh](https://www.linkedin.com/in/rahul-singh-50209318/)
+- [SureshKumar Muruganandam](https://www.linkedin.com/in/sureskumar-m-2747b028/)
 
 
 ## **Table of Contents**  
