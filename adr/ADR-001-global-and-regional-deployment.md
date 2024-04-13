@@ -10,13 +10,11 @@ Our system needs to handle data access, analytics, data interface, and data inge
 **Decision:**
 We have decided to use a Global-Regional Hybrid Architecture as a final outcome.
 **Rationale:**
-Our Northstar goal is to ese a Global-Regional Hybrid Architecture is based on the following reasons:
+Our Northstar goal is to use a Global-Regional Hybrid Architecture is based on the following reasons:
 1.	**Performance**: By hosting data interface and data ingestion layers in regional deployments, we can reduce latency (for telemetry ingestion) for farms in those regions.
 2.	**Data Synchronization**: The global instance maintains the "system of record" and publishes changes to regional services, enabling them to build derived databases. This ensures data consistency across the system, guaranteeing that regional services always have the most recent model (digital twin & configuration) information at their disposal.
 
 Considering Cost factor, our deployment shall be first in a single region, and based on business growth , it can be expanded to other regions by following the north star deployment goal
-
-
 
 3.	**Scalability**: This Global-Regional Hybrid Cloud Architecture empowers us to independently scale both regional and global service stacks. This enhances our system's capacity to manage growth effectively.
 

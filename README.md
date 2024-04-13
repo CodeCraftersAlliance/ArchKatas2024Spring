@@ -91,26 +91,31 @@ We were presented with a need for developing a Fish Farm Management System FishW
 
 The High level technical and Non functional requirements are as follows:
 
-|Requirement Type|Description| 
-| --- | --- | 
-| **Technical Requirements** | |
-| TR-01 | System should support multiple fish farms in various locations. | 
-| TR-02 | System should support farms of varying sizes, from single farm customers to large clients with over a hundred farms. | 
-| TR-03 | System should support multiple enclosures for fish per farm, ranging from ten to over a thousand. | 
-| TR-04 | System should support large farms housing over a million fish. | 
-| TR-05 | System should support a variety of different fish species per farm. | 
-| TR-06 | System should integrate with water monitors in each enclosure to capture water quality information (PH, temperature, salinity, oxygen levels, etc.). | 
-| TR-07 | System should integrate with underwater cameras in each enclosure to monitor fish health (size, activity, parasite detection). | 
-| TR-08 | System should support a beta feature for individual fish identification via fish-ual recognition. | 
-| TR-09 | System should provide customizable dashboards for farmers to view collected information. | 
-| TR-10 | System should allow farmers to set alert thresholds for various factors, including PH levels and upcoming adverse weather events. | 
-| TR-11 | System should track information about fish harvested from each farm. | 
-| TR-12 | System should use harvested information and raw data to build models for optimizing harvests. | 
-| TR-13 | System should allow large customers to derive insights across multiple farms. | 
-| TR-14 | System should define a data transmission method for hardware devices for water information capture and fish behavior detection. | 
-| **Non-Functional Requirements** | | 
-| NFR-01 | System should generate alerts in a timely manner to prevent potential damage from sudden water quality degradation or adverse weather. | 
-| NFR-02 | System should be designed to work in remote locations with poor cellular signal. | 
+#### Table 1 :  **Technical Requirements**
+
+|Requirement Type|Description|
+| --- | --- |
+| TR-01 | System should support multiple fish farms in various locations. |
+| TR-02 | System should support farms of varying sizes, from single farm customers to large clients with over a hundred farms. |
+| TR-03 | System should support multiple enclosures for fish per farm, ranging from ten to over a thousand. |
+| TR-04 | System should support large farms housing over a million fish. |
+| TR-05 | System should support a variety of different fish species per farm. |
+| TR-06 | System should integrate with water monitors in each enclosure to capture water quality information (PH, temperature, salinity, oxygen levels, etc.). |
+| TR-07 | System should integrate with underwater cameras in each enclosure to monitor fish health (size, activity, parasite detection). |
+| TR-08 | System should support a beta feature for individual fish identification via fish-ual recognition. |
+| TR-09 | System should provide customizable dashboards for farmers to view collected information. |
+| TR-10 | System should allow farmers to set alert thresholds for various factors, including PH levels and upcoming adverse weather events. |
+| TR-11 | System should track information about fish harvested from each farm. |
+| TR-12 | System should use harvested information and raw data to build models for optimizing harvests. |
+| TR-13 | System should allow large customers to derive insights across multiple farms. |
+| TR-14 | System should define a data transmission method for hardware devices for water information capture and fish behavior detection. |
+
+#### Table 2 : **Non-Functional Requirements**
+
+|Requirement Type|Description|
+|----|---|
+| NFR-01 | System should generate alerts in a timely manner to prevent potential damage from sudden water quality degradation or adverse weather. |
+| NFR-02 | System should be designed to work in remote locations with poor cellular signal. |
 | NFR-03 | System should be scalable to support future expansion to cattle and aquarium fish health monitoring. |
 
 ## 1. The Problem
@@ -120,6 +125,7 @@ The High level technical and Non functional requirements are as follows:
 From the problem statement, we extracted the following core requirements to guide our proposed architecture for the FishWatch system.
 
 #### **Context Diagram**
+
 ![ContextDiagram](./img/Context_Diagram.jpg)
 
 We visualised the Context and arrived at high level the below subsystems
@@ -223,7 +229,7 @@ Charles is typically the owner of the farm and often oversees multiple locations
 
 #### Natasha Romanoff, the Farm Administrator
 
-In a typical farm setting, the Farm Administrator is often also the owner of the farm. 
+In a typical farm setting, the Farm Administrator is often also the owner of the farm.
 - However, in the case of larger farms spread across different geographical locations, the Farm Administrator is usually the person in charge of the farm.
 - The Farm Administrator is responsible for creating farm users in the system and assigning enclosures to farmers, such as John Doe.
 - The Farm Administrator, who could be someone like Natasha, is also responsible for monitoring the health of the farm, reviewing trends, and identifying potential issues on the farm.
@@ -389,7 +395,7 @@ We recommend a combination of microservice and event-driven architecture styles.
 - Microservice architecture will allow keeping services of the system discrete, enabling fault tolerance and high availability.
 - Event-driven architecture will enable real-time capabilities. Various components can subscribe to events and receive them as asynchronous messages. eg: a Live Alert can be immediately served to the User interface and parallelly this message can be queued and processed to the database, there by making it near real-time and decoupling them.
 - As in microservices, we have minimized data sharing among microservices, The Event driven module ( Alerts and Notifications) uses Telemetry Databases, while Manage Enclosures and Rules uses a GraphDB as it allows us to define complex relationships . The shared database style is suitable because Fishwatch MonitorMe needs to prioritize data integrity and maintainability over data isolation .
-- We have followed, Global-Regional Hybrid architecture for deploying our services. The deployment looks at a high level as shown below: 
+- We have followed, Global-Regional Hybrid architecture for deploying our services. The deployment looks at a high level as shown below:
 
 Architecture decision records for Global Regional Deployment model can be found at [ADR-001-global-and-regional-deployment.md](./adr/ADR-001-global-and-regional-deployment.md), Distributed Microservice architecture [ADR-002-distributed-microservices-architecture.md](./adr/ADR-002-distributed-microservices-architecture.md), Availability per region [ADR_Availability_Per_Region](./adr/ADR-005-Availability_Per_Region.md)
 
@@ -511,14 +517,14 @@ The Cloud Events model is explained in detail in the document link [CloudEvents 
 
 ### **4.2 Microservice Independence**
 
-Each Important microservice shall maintain a model copy of relevant information to maintain their independence. This is achieved through: 
+Each Important microservice shall maintain a model copy of relevant information to maintain their independence. This is achieved through:
 
-- Model Service emits Change Data Capture (CDC) events to a message broker, which Notification service and Alert processing services subscribes to. 
+- Model Service emits Change Data Capture (CDC) events to a message broker, which Notification service and Alert processing services subscribes to.
 - Once CDC events are received by these 2 services, they transform them as needed before persisting them. This design ensures loose coupling and independent scalability of both services.
 
 This ensures, that there is a single Source of truth as Model DB, but relevant services shall have its own local copy as per their needs.
 
-The detailed flow for creating local copies that can be independently scaled along with the owner service is shown below: 
+The detailed flow for creating local copies that can be independently scaled along with the owner service is shown below:
 
 ![DistributedModel](./img/Microservice_independence.jpg)
 
@@ -682,23 +688,24 @@ These microservices work together to provide a scalable and modular architecture
 ## 5. Requirements to System components mapping
 
 
-| Requirements | System Component | Workflow Description | 
-|------------------------|------------------|----------------------| 
-| TR-01 , TR-02 | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin| 
-| TR-03, TR-04 | API Gateway, Onboarding API, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Create multiple enclosures and gateways in the digital twin.|
-| TR-05        | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Configure the farm animals using the details provided in the digital twin.|
-| TR-06      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add the necessary sensors and do the basic configuration like their sensing unit, operating temperature range in the digital twin. |
-| TR-07      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add and configure cameras using the details provided in the digital twin.|
-| TR-08      | Camera, Gateway, IoT hub, (Regional) Telemetry Ingestion Service, Data Lake, Advanced Analytics Service | When the snapshot capture feature is activated on the farm cameras, they periodically send fish images to the gateway. The frequency of these snapshots is adjustable. Upon receipt, the gateway forwards these images as telemetry data to the cloud. The telemetry ingestion service processes this data, storing the images in a global blob storage (Data Lake), and saving a reference in the time series database. The advanced analytics service can then classify the fish type based on identified characteristics.|
-| TR-09      | API Gateway, Insights API, Model Service, (Regional) Telemetry Ingestion services, Advanced analytics service, (Regional) Weather data Ingestion services | Authenticate and authorize the user. Validate the input, refer the digital twin to obtain metadata about the locations of all farms accessible to the current user. Use this information to determine the appropriate regional telemetry ingestion service for fetching telemetry data and alert information. Refer to the advanced analytics service for ML insights such as yield and etc, and the regional weather data ingestion service for weather information and predictions.|
-| TR-10      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Configure high and low limit thresholds for alerts, and dead band range for various sensors in the digital twin.|
-| TR-11      | API Gateway, Configuration API, Model Service| Yield is a property assigned to a farm entity within the digital twin (graph database). Farmers can input this data via the web application. |
-| TR-12      | Model Service, Advanced Analytics Service, Insights API | Harvest (Yield) data from the digital twin is transferred to the data lake through change feed or change data capture events. The advanced analytics service uses this data, along with sensor readings (temperature, salinity, pH, dissolved oxygen, ammonia content, external weather conditions), to train a model via supervised learning. Once trained, the model is deployed and made accessible for inference through the insights API.|
-| TR-13      | API Gateway, Insights API, Model Service, (Regional) Telemetry Ingestion services, Advanced analytics service, (Regional) Weather data Ingestion services | Authenticate and authorize the user. Validate the input, refer the digital twin to obtain metadata about the locations of all farms accessible to the current user. Use this information to determine the appropriate regional telemetry ingestion service for fetching telemetry data and alert information. Refer to the advanced analytics service for ML insights such as yield and etc, and the regional weather data ingestion service for weather information and predictions.|
-| TR-14 | Sensors, Gateway, IoT hub, (Regional) Telemetry Ingestion services| Farm-installed gateways continuously poll sensor data from each enclosure. This data is sent as telemetry to the IoT hub at regular intervals (e.g., every 5 minutes). The telemetry ingestion service then processes this data. |
-| NFR 01 | Gateway, IoT Hub, Alert processing service, Notification service | Farm-installed gateways send alerts to the IoT hub ([adr for choosing Iot hub](./adr/ADR-008-IOTHub.md)), capable of efficiently handling millions of such messages. These alerts are streamed to a message broker, enriched with digital twin context, and published to a notification queue. The notification service reads these messages and sends alerts to farm owners according to their preferences. Both the alert processing and notification services are stateless, dynamically scaling based on the message backlog in the brokers.|
-| NFR-02 | Gateway, IoT Hub | The gateway uses an offline data store to save telemetry and alarms when cloud connectivity is lost. Once network connectivity is restored, it forwards all offline events to the cloud. |
-| NFR-03 | Gateway, IoT Hub, (Regional) Telemetry Service, Alert processing service, Notification Service, Model (Digital twin) service | The cloud event model, used for streaming telemetry and alarms, along with the digital twin model, are universally applicable and can be deployed for any type of livestock management.|
+| Requirements | System Component | Workflow Description |
+|------------------------|------------------|----------------------|
+| [TR-01](#table-1--technical-requirements) , [TR-02](#table-1--technical-requirements) | API Gateway, Onboarding API, Model Service | Authenticate and authorize the user, then validate the input. Create the Farm Company and Farm in the digital twin|
+| [TR-03](#table-1--technical-requirements) , [TR-04](#table-1--technical-requirements)  | API Gateway, Onboarding API, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Create multiple enclosures and gateways in the digital twin.|
+| [TR-05](#table-1--technical-requirements)       | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Configure the farm animals using the details provided in the digital twin.|
+| [TR-06](#table-1--technical-requirements)      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add the necessary sensors and do the basic configuration like their sensing unit, operating temperature range in the digital twin. |
+| [TR-07](#table-1--technical-requirements)      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Add and configure cameras using the details provided in the digital twin.|
+| [TR-08](#table-1--technical-requirements)      | Camera, Gateway, IoT hub, (Regional) Telemetry Ingestion Service, Data Lake, Advanced Analytics Service | When the snapshot capture feature is activated on the farm cameras, they periodically send fish images to the gateway. The frequency of these snapshots is adjustable. Upon receipt, the gateway forwards these images as telemetry data to the cloud. The telemetry ingestion service processes this data, storing the images in a global blob storage (Data Lake), and saving a reference in the time series database. The advanced analytics service can then classify the fish type based on identified characteristics.|
+| [TR-09](#table-1--technical-requirements)      | API Gateway, Insights API, Model Service, (Regional) Telemetry Ingestion services, Advanced analytics service, (Regional) Weather data Ingestion services | Authenticate and authorize the user. Validate the input, refer the digital twin to obtain metadata about the locations of all farms accessible to the current user. Use this information to determine the appropriate regional telemetry ingestion service for fetching telemetry data and alert information. Refer to the advanced analytics service for ML insights such as yield and etc, and the regional weather data ingestion service for weather information and predictions.|
+| [TR-10](#table-1--technical-requirements)      | API Gateway, Configuration API, Model Service | Authenticate and authorize the user, then validate the input. Configure high and low limit thresholds for alerts, and dead band range for various sensors in the digital twin.|
+| [TR-11](#table-1--technical-requirements)      | API Gateway, Configuration API, Model Service| Yield is a property assigned to a farm entity within the digital twin (graph database). Farmers can input this data via the web application. |
+| [TR-12](#table-1--technical-requirements)      | Model Service, Advanced Analytics Service, Insights API | Harvest (Yield) data from the digital twin is transferred to the data lake through change feed or change data capture events. The advanced analytics service uses this data, along with sensor readings (temperature, salinity, pH, dissolved oxygen, ammonia content, external weather conditions), to train a model via supervised learning. Once trained, the model is deployed and made accessible for inference through the insights API.|
+| [TR-13](#table-1--technical-requirements)      | API Gateway, Insights API, Model Service, (Regional) Telemetry Ingestion services, Advanced analytics service, (Regional) Weather data Ingestion services | Authenticate and authorize the user. Validate the input, refer the digital twin to obtain metadata about the locations of all farms accessible to the current user. Use this information to determine the appropriate regional telemetry ingestion service for fetching telemetry data and alert information. Refer to the advanced analytics service for ML insights such as yield and etc, and the regional weather data ingestion service for weather information and predictions.|
+| [TR-14](#table-1--technical-requirements) | Sensors, Gateway, IoT hub, (Regional) Telemetry Ingestion services| Farm-installed gateways continuously poll sensor data from each enclosure. This data is sent as telemetry to the IoT hub at regular intervals (e.g., every 5 minutes). The telemetry ingestion service then processes this data. |
+| [NFR 01](#table-2--non-functional-requirements) | Gateway, IoT Hub, Alert processing service, Notification service | Farm-installed gateways send alerts to the IoT hub ([adr for choosing Iot hub](./adr/ADR-008-IOTHub.md)), capable of efficiently handling millions of such messages. These alerts are streamed to a message broker, enriched with digital twin context, and published to a notification queue. The notification service reads these messages and sends alerts to farm owners according to their preferences. Both the alert processing and notification services are stateless, dynamically scaling based on the message backlog in the brokers.|
+| [NFR 01](#table-2--non-functional-requirements) | Gateway, IoT Hub, Alert processing service, Notification service | Farm-installed gateways send alerts to the IoT hub ([adr for choosing Iot hub](./adr/ADR-008-IOTHub.md)), capable of efficiently handling millions of such messages. These alerts are streamed to a message broker, enriched with digital twin context, and published to a notification queue. The notification service reads these messages and sends alerts to farm owners according to their preferences. Both the alert processing and notification services are stateless, dynamically scaling based on the message backlog in the brokers.|
+| [NFR-02](#table-2--non-functional-requirements)  | Gateway, IoT Hub | The gateway uses an offline data store to save telemetry and alarms when cloud connectivity is lost. Once network connectivity is restored, it forwards all offline events to the cloud. |
+| [NFR-03](#table-2--non-functional-requirements)  | Gateway, IoT Hub, (Regional) Telemetry Service, Alert processing service, Notification Service, Model (Digital twin) service | The cloud event model, used for streaming telemetry and alarms, along with the digital twin model, are universally applicable and can be deployed for any type of livestock management.|
 
 ## 6. Appendix
 
